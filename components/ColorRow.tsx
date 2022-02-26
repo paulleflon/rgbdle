@@ -5,6 +5,11 @@ import ColorRowProps from '../interfaces/ColorRowProps';
  * A row of color values.
  */
 const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps): ReactElement => {
+	// Refs to the input elements.
+	// Any of these can be unused if some colors are locked.
+	// Defined here because next refuses conditional refs.
+	const refs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
+
 	switch (status) {
 		case 'past': {
 			const displayedColors: string[] = Array(3)
@@ -39,9 +44,6 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 			);
 		}
 		case 'current': {
-			// Refs to the input elements.
-			// Any of these can be unused if some colors are locked.
-			const refs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
 			const onSubmit = (): void => {
 				const values: [number, number, number] = [-1, -1, -1];
 				for (const i in refs) {
