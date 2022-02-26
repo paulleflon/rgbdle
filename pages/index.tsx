@@ -184,7 +184,7 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 				<meta property='og:description' content='Demonstrate your skills in design: Guess a RGB code every day!' />
 				<meta property='og:type' content='website' />
 				<meta property='og:url' content='https://rgbdle.hicka.world' />
-				<meta property='og:image' content='https://bd7c-81-48-179-225.ngrok.io/card.png' />
+				<meta property='og:image' content='https://rgbdle.hicka.world/card.png' />
 				{/* Twitter meta */}
 				<meta name='twitter:title' content='RGBdle' />
 				<meta name='twitter:description' content='Demonstrate your skills in design: Guess a RGB code every day!' />
