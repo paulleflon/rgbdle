@@ -85,6 +85,7 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 									key={i}
 									min={0}
 									max={255}
+									onKeyDown={e => e.key === 'Enter' && onSubmit()}
 									pattern='\d*'
 									ref={ref}
 									type='number'
