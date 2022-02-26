@@ -1,6 +1,7 @@
 import { parse } from 'comment-json';
 import { readFileSync } from 'fs';
 import Head from 'next/head';
+import Script from 'next/script'
 import { join } from 'path';
 import { useEffect, useState } from 'react';
 import { IoLogoGithub } from 'react-icons/io';
@@ -20,7 +21,7 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 	const d = new Date();
 	const formatted = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 	// No need to use state for this value, it is not supposed to change.
-	const color: ColorInfo = colors[formatted] || { rgb: [4, 20, 69], name: 'Backup color', day: 69420}; // In case something fucks up.
+	const color: ColorInfo = colors[formatted] || { rgb: [4, 20, 69], name: 'Backup color', day: 69420 }; // In case something fucks up.
 	// Array storing the amount of guesses ([1;10]) submitted by the user for each game they have played.
 	// -1 means they didn't find the color after 10 attempts in that game.
 	// If the user didn't finish a game, this game is not included in the array.
@@ -202,6 +203,15 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 
 	return (
 		<div className='relative h-full overflow-hidden'>
+			{/* Analytics */}
+			{/* Note: Insights analytics don't collect any user's data. */}
+			<Script
+				src='https://getinsights.io/js/insights.js'
+				onLoad={() => {
+					insights.init(process.env.NEXT_PUBLIC_INSIGHTS_ID);
+					insights.trackPages();
+				}}
+			/>
 			{head}
 			{
 				isLoading ?
