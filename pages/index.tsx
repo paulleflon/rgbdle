@@ -73,7 +73,6 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 		localStorage.setItem('RGBDLE_FIRST_TIME', 'false');
 
 		/* Opening Warning if needed */
-		console.log(process.env.NEXT_PUBLIC_WARNING, process.env.NEXT_PUBLIC_WARNING_MESSAGE);
 		if (process.env.NEXT_PUBLIC_WARNING && process.env.NEXT_PUBLIC_WARNING_MESSAGE) {
 			const lastIgnored = localStorage.getItem('RGBDLE_LAST_IGNORED_WARNING') || '';
 			if (lastIgnored !== process.env.NEXT_PUBLIC_WARNING) {
@@ -254,7 +253,6 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 export default Home;
 
 export function getStaticProps() {
-	console.log(process.cwd());
 	const data = parse(readFileSync(join(process.cwd(), 'COLORS.json'), 'utf8')) as any as Record<string, ColorInfo & { date: string }>;
 	let d = new Date();
 	const formatted = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
