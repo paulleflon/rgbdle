@@ -16,8 +16,7 @@ import ColorInfo from '../interfaces/ColorInfo';
  * @param props.colors ColorInfo objects for the upcoming games.
  */
 const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
-	console.log(colors);
-	const color = colors[0];
+	const color = colors[0]; // No need to use state for this value, it is not supposed to change.
 	// Array storing the amount of guesses ([1;10]) submitted by the user for each game they have played.
 	// -1 means they didn't find the color after 10 attempts in that game.
 	// If the user didn't finish a game, this game is not included in the array.
@@ -215,9 +214,11 @@ export default Home;
 export function getStaticProps() {
 	console.log(process.cwd());
 	const data = parse(readFileSync(join(process.cwd(), 'COLORS.json'), 'utf8')) as any as Record<string, ColorInfo & { date: string }>;
-	const d = new Date();
-	const date = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-	console.log(data);
+	let d = new Date();
+	const formatted = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+	d = new Date(formatted); // This removes all hours, minutes, seconds, etc, so that today's color can match.
+	// We only keep today's color and future ones.
+	// Like this, we're sure every needed color is loaded in the app at each build without bloating the bundle with older colors.
 	const colors = Object.values(data).filter(c => new Date(c.date).getTime() >= d.getTime());
 	return {
 		props: {
