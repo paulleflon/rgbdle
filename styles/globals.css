@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Poppins&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#__next {
+	@apply overflow-hidden m-0 p-0 h-screen font-body bg-gray-200 dark:bg-slate-800 text-slate-800 dark:text-gray-50 print:bg-white print:text-black;
+}
+
+* {
+	@apply relative box-border;
+}
+
+a {
+	@apply underline hover:no-underline;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.warning {
+	bottom: 0;
+	transform: translateY(110%);
+	opacity: 0;
+	transition: 1s cubic-bezier(.07,.35,.07,.98);
+}
+
+.warning.open {
+	bottom: 20px;
+	opacity: 1;
+	transform: translateY(0);
+}
+
+@layer components {
+	.color-row {
+		@apply flex flex-row items-center justify-center my-3;
+	}
+
+	.color-row-cell {
+		@apply appearance-none flex flex-col items-center justify-center mx-2 rounded w-12 h-12 font-title text-center text-white;
+	}
+
+	.color-row-cell.error {
+		@apply border-red-600;
+	}
+
+	.pop-up-container {
+		@apply fixed top-0 left-0 flex justify-center items-center opacity-0 motion-reduce:transition-none transition-all duration-300 w-full h-full bg-black/30 backdrop-blur-lg pointer-events-none blur-xl;
+	}
+
+	.pop-up-container.open {
+		@apply opacity-100 pointer-events-auto blur-0;
+	}
+
+	.pop-up-close {
+		@apply absolute z-50 top-1 right-1 sm:top-3 sm:right-3 p-1 motion-reduce:transition-none transition-colors duration-100 hover:bg-white/40 rounded-full
+			cursor-pointer text-white text-2xl md:text-3xl focus-visible:text-orange-500 outline-none;
+	}
+
+	.pop-up-wrapper {
+		@apply relative overflow-hidden rounded w-10/12 max-w-3xl h-[90%] max-h-[500px] bg-gray-50 dark:bg-slate-800;
+	}
+
+	.pop-up {
+		@apply p-4 h-full overflow-y-auto;
+	}
+
+}
