@@ -13,8 +13,6 @@ const calculateTimeLeft = () => {
 	next.setSeconds(0);
 	next.setMilliseconds(0);
 	const diff = next.getTime() - now.getTime();
-	if (diff < 0)
-		return 'Right now!';
 	let hours: string = '' + Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 	let minutes: string = '' + Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 	let seconds: string = '' + Math.floor((diff % (1000 * 60)) / 1000);

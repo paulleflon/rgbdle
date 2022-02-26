@@ -20,8 +20,11 @@ import ColorInfo from '../interfaces/ColorInfo';
 const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 	const d = new Date();
 	const formatted = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-	// No need to use state for this value, it is not supposed to change.
-	const color: ColorInfo = colors[formatted] || { rgb: [4, 20, 69], name: 'Backup color', day: 69420 }; // In case something fucks up.
+	// We use state so that the value doesn't change on re-render.
+	// In case the user stays on the same session around midnight, while the Results component is opened
+	// as this component re-renders every second.
+	const [color, _setColor] = useState<ColorInfo>(colors[formatted] || { rgb: [4, 20, 69], name: 'Backup color', day: 69420 }); // In case something fucks up.
+
 	// Array storing the amount of guesses ([1;10]) submitted by the user for each game they have played.
 	// -1 means they didn't find the color after 10 attempts in that game.
 	// If the user didn't finish a game, this game is not included in the array.
