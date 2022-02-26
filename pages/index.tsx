@@ -3,6 +3,7 @@ import { readFileSync } from 'fs';
 import Head from 'next/head';
 import { join } from 'path';
 import { useEffect, useState } from 'react';
+import { IoLogoGithub } from 'react-icons/io';
 import Game from '../components/Game';
 import Guide from '../components/Guide';
 import Header from '../components/Header';
@@ -204,6 +205,23 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 							displayed={showWarning}
 							message={warningMessage}
 						/>
+						<div className='flex flex-row justify-center items-center pb-2 text-slate-500/40 dark:text-gray-50/10'>
+							<div className='mr-2'>
+								Report bugs, see source code, star or contribute on
+							</div>
+							<a
+								className='flex flex-row items-center no-underline transition-colors duration-100 hover:text-gray-50'
+								href='https://github.com/hickatheworld/rgbdle'
+								rel='noopener noreferrer'
+								target='_blank'
+							>
+
+								<IoLogoGithub></IoLogoGithub>
+								<div className='ml-1'>
+									GitHub
+								</div>
+							</a>
+						</div>
 					</div>
 			}
 		</div>
