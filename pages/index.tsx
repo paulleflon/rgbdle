@@ -10,7 +10,14 @@ import Results from '../components/Results';
 import Warning from '../components/Warning';
 import ColorInfo from '../interfaces/ColorInfo';
 
-const Home = ({ color }: { color: ColorInfo }) => {
+/**
+ * The main page of the app.
+ * @param props The props of the page.
+ * @param props.colors ColorInfo objects for the upcoming games.
+ */
+const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
+	console.log(colors);
+	const color = colors[0];
 	// Array storing the amount of guesses ([1;10]) submitted by the user for each game they have played.
 	// -1 means they didn't find the color after 10 attempts in that game.
 	// If the user didn't finish a game, this game is not included in the array.
@@ -205,14 +212,16 @@ const Home = ({ color }: { color: ColorInfo }) => {
 }
 export default Home;
 
-export function getServerSideProps() {
-	const data = parse(readFileSync(join(__dirname, '../../..', 'COLORS.json'), 'utf8')) as any as Record<string, ColorInfo>;
+export function getStaticProps() {
+	console.log(process.cwd());
+	const data = parse(readFileSync(join(process.cwd(), 'COLORS.json'), 'utf8')) as any as Record<string, ColorInfo & { date: string }>;
 	const d = new Date();
 	const date = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-	const color = data[date] as ColorInfo;
+	console.log(data);
+	const colors = Object.values(data).filter(c => new Date(c.date).getTime() >= d.getTime());
 	return {
 		props: {
-			color
+			colors
 		}
 	};
 }
