@@ -48,7 +48,6 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 
 	useEffect(() => {
 		/* Checking the save of today's game. */
-
 		const save = parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
 		// It can be anything, the user may have messed up with localStorage. And `unknown` is a bullshit type.
 		if (
@@ -88,13 +87,11 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 			}
 		}
 
-
 		/* Keyboard shortcut to close popup. */
 		window.addEventListener('keydown', (e) => {
 			if (e.key === 'Escape')
 				display('none');
 		});
-
 	}, []);
 
 	const submitGuess = (guess: [number, number, number]): void => {
@@ -113,16 +110,34 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 			guesses: [...guesses, guess]
 		}));
 		if (correct === 3)
-			endGame(guesses.length + 1);
+			endGame(guesses.length + 1, [...guesses, guess]);
 		else if (guesses.length + 1 === 10)
-			endGame(-1);
+			endGame(-1, [...guesses, guess]);
 	};
 
-	const endGame = (attemptsCount: number): void => {
+	const endGame = async (attemptsCount: number, guesses: [number, number, number][]): Promise<void> => {
 		setEnded(true);
 		attempts.push(attemptsCount);
 		localStorage.setItem('RGBDLE_ATTEMPTS', JSON.stringify(attempts));
 		setAttempts(attempts);
+		// Sending game results to webhook.
+		fetch('/api/sendGame', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				correct: color.rgb,
+				day: color.day,
+				guesses,
+				name: color.name
+			})
+		}).then(() => {
+			console.log('Resuls sent to webhook.');
+		}).catch(e => {
+			console.error('Failed to send game results. Error:');
+			console.error(e);
+		});
 		display('results');
 	}
 
@@ -206,15 +221,6 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 
 	return (
 		<div className='relative h-full overflow-hidden'>
-			{/* Analytics */}
-			{/* Note: Insights analytics don't collect any user's data. */}
-			<Script
-				src='https://getinsights.io/js/insights.js'
-				onLoad={() => {
-					insights.init(process.env.NEXT_PUBLIC_INSIGHTS_ID);
-					insights.trackPages();
-				}}
-			/>
 			{head}
 			{
 				isLoading ?
