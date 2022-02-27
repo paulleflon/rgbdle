@@ -17,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		}
 		const body = `
 		**Color:** ${name}
-		**Guesses:**\n ${guessString}
+		**Guesses:**${guessString}
 		**Solution:** ${correct[0]}, ${correct[1]}, ${correct[2]}
 	`;
 		const lastGuess = guesses[guesses.length - 1];
