@@ -20,7 +20,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		**Guesses:**\n ${guessString}
 		**Solution:** ${correct[0]}, ${correct[1]}, ${correct[2]}
 	`;
-		const didGuess = guesses.at(-1) === correct;
+		const didGuess = guesses[guesses.length - 1] === correct;
 		const embed = {
 			title: 'New game submitted!',
 			description: body,
