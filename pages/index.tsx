@@ -222,15 +222,6 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 
 	return (
 		<div className='relative h-full overflow-hidden'>
-			{/* Analytics */}
-			{/* Note: Insights analytics don't collect any user's data. */}
-			<Script
-				src='https://getinsights.io/js/insights.js'
-				onLoad={() => {
-					insights.init(process.env.NEXT_PUBLIC_INSIGHTS_ID);
-					insights.trackPages();
-				}}
-			/>
 			{head}
 			{
 				isLoading ?
