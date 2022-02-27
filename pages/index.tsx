@@ -110,35 +110,34 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 			guesses: [...guesses, guess]
 		}));
 		if (correct === 3)
-			endGame(guesses.length + 1);
+			endGame(guesses.length + 1, [...guesses, guess]);
 		else if (guesses.length + 1 === 10)
-			endGame(-1);
+			endGame(-1, [...guesses, guess]);
 	};
 
-	const endGame = async (attemptsCount: number): Promise<void> => {
+	const endGame = async (attemptsCount: number, guesses: [number, number, number][]): Promise<void> => {
 		setEnded(true);
 		attempts.push(attemptsCount);
 		localStorage.setItem('RGBDLE_ATTEMPTS', JSON.stringify(attempts));
 		setAttempts(attempts);
 		// Sending game results to webhook.
-		try {
-			await fetch('/api/sendGame', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					correct: color.rgb,
-					day: color.day,
-					guesses,
-					name: color.name
-				})
-			});
-			console.log('Game results sent to webhook.');
-		} catch (e: any) {
+		fetch('/api/sendGame', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				correct: color.rgb,
+				day: color.day,
+				guesses,
+				name: color.name
+			})
+		}).then(() => {
+			console.log('Resuls sent to webhook.');
+		}).catch(e => {
 			console.error('Failed to send game results. Error:');
 			console.error(e);
-		}
+		});
 		display('results');
 	}
 
