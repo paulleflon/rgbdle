@@ -105,7 +105,7 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 											left: `${i * 29.7}px`,
 											// * 200 because with 100, the bars look to small. For attempt arrays of length 1, we make sure not to
 											// go above 100%.
-											height: `${Math.min(distribution[i] / clearAttempts.length * 200, 100)}%`,
+											height: `${distribution[i] / clearAttempts.length * 100}%`,
 											// This fixes the position of bars with a height of 0.
 											bottom: distribution[i] === 0 ? '20px' : ''
 										}} // Tailwind arbitrary values can't be used with such volatile CSS.
