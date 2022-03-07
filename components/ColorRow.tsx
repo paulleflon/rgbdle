@@ -108,7 +108,7 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 					{
 						// Array of length 3
 						correct.map((_, i) =>
-							<div className='color-row-cell bg-slate-800 dark:bg-gray-50' key={i}></div>
+							<div className='color-row-cell bg-slate-800 dark:bg-gray-300' key={i}></div>
 						)
 					}
 					<div className='color-row-cell bg-transparent'></div> {/* For alignment. */}
