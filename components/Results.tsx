@@ -42,7 +42,7 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 		if (v !== -1)
 			distribution[v - 1]++;
 	}
-	 // To avoid division by 0.
+	// To avoid division by 0.
 	if (clearAttempts.length === 0)
 		clearAttempts.push('Never gonna give you up' as any as number); // I do what I want and I will put string in number array.
 
@@ -93,22 +93,22 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 				attempts.length
 					?
 					<div className='flex justify-center my-2'>
-						<div className='relative border border-slate-500 w-[300px] max-w-[90%] h-[300px] overflow-x-auto'>
+						<div className='flex flex-row items-bottom justify-baseline border border-slate-500 w-[300px] max-w-[90%] h-[300px] overflow-x-auto'>
 							{
 								Array(10).fill(0).map((_, i) =>
 									<div
-										className='absolute flex flex-col justify-center items-center bottom-0 w-[30px] bg-cyan-500'
+										className='flex shrink-0 flex-col mt-auto justify-center items-center bottom-0 w-[30px] bg-cyan-500 overflow-y-hidden'
 										key={i}
 										title={`You won ${distribution[i]} games in ${i + 1} attempts. (${(distribution[i] / clearAttempts.length * 100).toFixed(2)}%)`}
-										style={{
-											// 30px causes a permanent overflow. 29.7 is hardly noticed  and fixes the overflow.
-											left: `${i * 29.7}px`,
-											// * 200 because with 100, the bars look to small. For attempt arrays of length 1, we make sure not to
-											// go above 100%.
-											height: `${Math.min(distribution[i] / clearAttempts.length * 200, 100)}%`,
-											// This fixes the position of bars with a height of 0.
-											bottom: distribution[i] === 0 ? '20px' : ''
-										}} // Tailwind arbitrary values can't be used with such volatile CSS.
+										style={distribution[i] === 0 ?
+											{
+												height: 50,
+												backgroundColor: 'transparent'
+											} :
+											{
+												height: `${Math.min(distribution[i] / clearAttempts.length * 200, 100)}%`,
+											}}
+									// Tailwind arbitrary values can't be used with such volatile CSS.
 									>
 										<div className='cursor-default font-title text-xs'>{i + 1}</div>
 										<div className='cursor-default font-body text-sm'>{distribution[i]}</div>
