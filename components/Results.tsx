@@ -93,11 +93,11 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 				attempts.length
 					?
 					<div className='flex justify-center my-2'>
-						<div className='flex flex-row items-bottom justify-baseline border border-slate-500 w-[300px] min-w-[90%] h-[300px] overflow-x-auto'>
+						<div className='flex flex-row items-bottom justify-baseline border border-slate-500 w-[300px] max-w-[90%] h-[300px] overflow-x-auto'>
 							{
 								Array(10).fill(0).map((_, i) =>
 									<div
-										className='flex shrink-0 flex-col mt-auto justify-center items-center bottom-0 w-[10%] max-w-[29px] bg-cyan-500 overflow-y-hidden'
+										className='flex shrink-0 flex-col mt-auto justify-center items-center bottom-0 w-[10%] min-w-[29px] bg-cyan-500 overflow-y-hidden'
 										key={i}
 										title={`You won ${distribution[i]} games in ${i + 1} attempts. (${(distribution[i] / clearAttempts.length * 100).toFixed(2)}%)`}
 										style={distribution[i] === 0 ?
