@@ -93,7 +93,7 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 				attempts.length
 					?
 					<div className='flex justify-center my-2'>
-						<div className='flex flex-row items-bottom justify-baseline border border-slate-500 w-[300px] max-w-[90%] h-[300px] overflow-x-auto'>
+						<div className='flex flex-row items-bottom justify-baseline border border-slate-500 w-[300px] min-w-[90%] h-[300px] overflow-x-auto'>
 							{
 								Array(10).fill(0).map((_, i) =>
 									<div
