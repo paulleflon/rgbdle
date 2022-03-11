@@ -240,6 +240,23 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 							lock={lock}
 							submitGuess={submitGuess}
 						/>
+						<div className='px-4 text-center text-slate-500/40 dark:text-gray-50/10'>
+							<div className='inline mr-2'>
+								Report bugs, see source code, star or contribute on
+							</div>
+							<a
+								className='inline-flex flex-row items-baseline no-underline transition-colors duration-100 hover:text-gray-50'
+								href='https://github.com/hickatheworld/rgbdle'
+								rel='noopener noreferrer'
+								target='_blank'
+							>
+
+								<IoLogoGithub size={18} className='translate-y-[2px]'></IoLogoGithub>
+								<div className='ml-1'>
+									GitHub
+								</div>
+							</a>
+						</div>
 						<Results
 							attempts={attempts}
 							close={() => display('none')}
@@ -257,23 +274,6 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 							displayed={showWarning}
 							message={warningMessage}
 						/>
-						<div className='px-4 pb-2 text-center text-slate-500/40 dark:text-gray-50/10'>
-							<div className='inline mr-2'>
-								Report bugs, see source code, star or contribute on
-							</div>
-							<a
-								className='inline-flex flex-row items-baseline no-underline transition-colors duration-100 hover:text-gray-50'
-								href='https://github.com/hickatheworld/rgbdle'
-								rel='noopener noreferrer'
-								target='_blank'
-							>
-
-								<IoLogoGithub size={18} className='translate-y-[2px]'></IoLogoGithub>
-								<div className='ml-1'>
-									GitHub
-								</div>
-							</a>
-						</div>
 					</div>
 			}
 		</div>
