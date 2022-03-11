@@ -87,6 +87,13 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 			}
 		}
 
+		/* Telling Safari users to use a fucking web browser, not a trashcan capable of opening webpages. */
+		if (/apple/i.test(navigator.vendor) && localStorage.getItem('RGBDLE_SAFARI_WARNING') !== 'false') {
+			alert('Hey, you seem to be using Safari to play RGBdle. This browser often offers unexpected behavior.\n \
+			 	If you have any trouble playing the game, I would recommend you use another browser, such as Firefox or Chrome.');
+			localStorage.setItem('RGBDLE_SAFARI_WARNING', 'false');
+		}
+		
 		/* Keyboard shortcut to close popup. */
 		window.addEventListener('keydown', (e) => {
 			if (e.key === 'Escape')
