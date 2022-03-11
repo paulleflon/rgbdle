@@ -93,7 +93,7 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 			 	If you have any trouble playing the game, I would recommend you use another browser, such as Firefox or Chrome.');
 			localStorage.setItem('RGBDLE_SAFARI_WARNING', 'false');
 		}
-		
+
 		/* Keyboard shortcut to close popup. */
 		window.addEventListener('keydown', (e) => {
 			if (e.key === 'Escape')
