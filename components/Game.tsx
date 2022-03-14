@@ -6,11 +6,12 @@ import ColorRow from './ColorRow';
 /**
  * Functional component for the RGBdle game.
  */
-const Game = ({ color, ended, lock, submitGuess, guesses }: GameProps): ReactElement => {
+const Game = ({ about, color, ended, lock, submitGuess, guesses }: GameProps): ReactElement => {
 	const rows = Array(10).fill('');
 	return (
 		<div className='py-6'>
 			<ColorDisplayer
+				about={about}
 				color={color}
 				showRgb={false}
 			/>

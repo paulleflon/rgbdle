@@ -5,6 +5,10 @@ import ColorInfo from './ColorInfo';
  */
 interface GameProps {
 	/**
+	 * Context about the color if there is any.
+	 */
+	about?: string;
+	/**
 	 * The color to guess.
 	 */
 	color: ColorInfo;

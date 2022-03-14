@@ -1,7 +1,6 @@
 import { parse } from 'comment-json';
 import { readFileSync } from 'fs';
 import Head from 'next/head';
-import Script from 'next/script'
 import { join } from 'path';
 import { useEffect, useState } from 'react';
 import { IoLogoGithub } from 'react-icons/io';
@@ -11,13 +10,14 @@ import Header from '../components/Header';
 import Results from '../components/Results';
 import Warning from '../components/Warning';
 import ColorInfo from '../interfaces/ColorInfo';
+import RGBdleProps from '../interfaces/RGBdleProps';
 
 /**
  * The main page of the app.
  * @param props The props of the page.
  * @param props.colors ColorInfo objects for the upcoming games.
  */
-const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
+const Home = ({ about, colors }: RGBdleProps) => {
 	const d = new Date();
 	const formatted = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 	// We use state so that the value doesn't change on re-render.
@@ -45,7 +45,6 @@ const Home = ({ colors }: { colors: Record<string, ColorInfo> }) => {
 	const [showWarning, setShowWarning] = useState(false);
 	// The warning message to display.
 	const [warningMessage, setWarningMessage] = useState('');
-
 	useEffect(() => {
 		/* Checking the save of today's game. */
 		const save = parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
@@ -241,6 +240,7 @@ If you have any trouble playing the game, I would recommend you use another brow
 					<div className='relative h-full overflow-y-auto'>
 						<Header display={display} />
 						<Game
+							about={about}
 							color={color}
 							ended={ended}
 							guesses={guesses}
@@ -288,7 +288,7 @@ If you have any trouble playing the game, I would recommend you use another brow
 }
 export default Home;
 
-export function getStaticProps() {
+export function getStaticProps(): { props: RGBdleProps } {
 	const data = parse(readFileSync(join(process.cwd(), 'COLORS.json'), 'utf8')) as any as Record<string, ColorInfo & { date: string }>;
 	let d = new Date();
 	const formatted = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
@@ -304,6 +304,7 @@ export function getStaticProps() {
 	}
 	return {
 		props: {
+			about: process.env.COLOR_ABOUT,
 			colors
 		}
 	};

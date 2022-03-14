@@ -2,6 +2,10 @@ import ColorInfo from './ColorInfo';
 
 interface ColorDisplayerProps {
 	/**
+	 * Context about the color if there is any.
+	 */
+	about?: string;
+	/**
 	 * The info about the color to display.
 	 */
 	color: ColorInfo;
