@@ -302,8 +302,7 @@ export function getStaticProps(): { props: RGBdleProps } {
 			colors[k] = v;
 		}
 	}
-	return
-	(process.env.COLOR_ABOUT) ?
+	return (process.env.COLOR_ABOUT) ?
 		{
 			props: {
 				about: process.env.COLOR_ABOUT,
