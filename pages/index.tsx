@@ -43,71 +43,6 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 	// The warning message to display.
 	const [warningMessage, setWarningMessage] = useState('');
 
-	/* Disable body scrolling when a popup is opened. */
-	useEffect(() => {
-		document.body.style.overflow = (showGuide || showResults) ? 'hidden' : '';
-	}, [showGuide, showResults]);
-
-	useEffect(() => {
-		/* Checking the save of today's game. */
-		if (mania) {
-			const random = () => Math.floor(Math.random() * 255);
-			const rgb: [number, number, number] = [random(), random(), random()];
-			const name = 'Random color';
-			const day = 0;
-			const color = { rgb, name, day };
-			setColor(color);
-			setIsLoading(false);
-		}
-		else {
-
-			const save = parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
-			// It can be anything, the user may have messed up with localStorage. And `unknown` is a bullshit type.
-			if (
-				// Type checks
-				typeof save.day === 'number' &&
-				typeof save.ended === 'boolean' &&
-				typeof save.guesses === 'object' &&
-				// If no guess is stored, no need to consider this save. Well there is no reason for a save without guesses to exist but just in case.
-				save.guesses.length > 0 &&
-				// This save is relevant only if it's for the same game day.
-				save.day === color.day
-			) {
-				setGuesses(save.guesses);
-				setEnded(save.ended);
-				const lastGuess = save.guesses.at(-1);
-				setLock([lastGuess[0] === color.rgb[0], lastGuess[1] === color.rgb[1], lastGuess[2] === color.rgb[2]]);
-			} else {
-				localStorage.setItem('RGBDLE_SAVE', '');
-			}
-
-			/* Checking the attempts array. */
-			const arr = parse(localStorage.getItem('RGBDLE_ATTEMPTS') || '[]') as number[];
-			setAttempts(arr);
-			setIsLoading(false);
-		}
-
-		/* Opening guide if it's the first time the user is playing. */
-		const alreadyPlayed = localStorage.getItem('RGBDLE_FIRST_TIME') === 'false';
-		setShowGuide(!alreadyPlayed);
-		localStorage.setItem('RGBDLE_FIRST_TIME', 'false');
-
-		/* Opening Warning if needed */
-		if (process.env.NEXT_PUBLIC_WARNING && process.env.NEXT_PUBLIC_WARNING_MESSAGE) {
-			const lastIgnored = localStorage.getItem('RGBDLE_LAST_IGNORED_WARNING') || '';
-			if (lastIgnored !== process.env.NEXT_PUBLIC_WARNING) {
-				setShowWarning(true);
-				setWarningMessage(process.env.NEXT_PUBLIC_WARNING_MESSAGE);
-			}
-		}
-
-		/* Keyboard shortcut to close popup. */
-		window.addEventListener('keydown', (e) => {
-			if (e.key === 'Escape')
-				display('none');
-		});
-	}, []);
-
 	const submitGuess = (guess: [number, number, number]): void => {
 		let correct = 0;
 		setGuesses((prev) => [...prev, guess]);
@@ -181,6 +116,71 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 		setShowWarning(false);
 		localStorage.setItem('RGBDLE_LAST_IGNORED_WARNING', process.env.NEXT_PUBLIC_WARNING!);
 	};
+
+	/* Disable body scrolling when a popup is opened. */
+	useEffect(() => {
+		document.body.style.overflow = (showGuide || showResults) ? 'hidden' : '';
+	}, [showGuide, showResults]);
+
+	useEffect(() => {
+		/* Checking the save of today's game. */
+		if (mania) {
+			const random = () => Math.floor(Math.random() * 255);
+			const rgb: [number, number, number] = [random(), random(), random()];
+			const name = 'Random color';
+			const day = 0;
+			const color = { rgb, name, day };
+			setColor(color);
+			setIsLoading(false);
+		}
+		else {
+
+			const save = parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
+			// It can be anything, the user may have messed up with localStorage. And `unknown` is a bullshit type.
+			if (
+				// Type checks
+				typeof save.day === 'number' &&
+				typeof save.ended === 'boolean' &&
+				typeof save.guesses === 'object' &&
+				// If no guess is stored, no need to consider this save. Well there is no reason for a save without guesses to exist but just in case.
+				save.guesses.length > 0 &&
+				// This save is relevant only if it's for the same game day.
+				save.day === color.day
+			) {
+				setGuesses(save.guesses);
+				setEnded(save.ended);
+				const lastGuess = save.guesses.at(-1);
+				setLock([lastGuess[0] === color.rgb[0], lastGuess[1] === color.rgb[1], lastGuess[2] === color.rgb[2]]);
+			} else {
+				localStorage.setItem('RGBDLE_SAVE', '');
+			}
+
+			/* Checking the attempts array. */
+			const arr = parse(localStorage.getItem('RGBDLE_ATTEMPTS') || '[]') as number[];
+			setAttempts(arr);
+			setIsLoading(false);
+		}
+
+		/* Opening guide if it's the first time the user is playing. */
+		const alreadyPlayed = localStorage.getItem('RGBDLE_FIRST_TIME') === 'false';
+		setShowGuide(!alreadyPlayed);
+		localStorage.setItem('RGBDLE_FIRST_TIME', 'false');
+
+		/* Opening Warning if needed */
+		if (process.env.NEXT_PUBLIC_WARNING && process.env.NEXT_PUBLIC_WARNING_MESSAGE) {
+			const lastIgnored = localStorage.getItem('RGBDLE_LAST_IGNORED_WARNING') || '';
+			if (lastIgnored !== process.env.NEXT_PUBLIC_WARNING) {
+				setShowWarning(true);
+				setWarningMessage(process.env.NEXT_PUBLIC_WARNING_MESSAGE);
+			}
+		}
+
+		/* Keyboard shortcut to close popup. */
+		window.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape')
+				display('none');
+		});
+	}, []);
 
 	const head = (
 		<Head>
