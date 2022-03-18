@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+import { BiRefresh } from 'react-icons/bi';
 import GameProps from '../interfaces/GameProps';
 import ColorDisplayer from './ColorDisplayer';
 import ColorRow from './ColorRow';
@@ -6,7 +7,7 @@ import ColorRow from './ColorRow';
 /**
  * Functional component for the RGBdle game.
  */
-const Game = ({ about, color, ended, lock, mania, submitGuess, guesses }: GameProps): ReactElement => {
+const Game = ({ about, color, ended, guesses, lock, mania, refreshColor, submitGuess }: GameProps): ReactElement => {
 	const rows = Array(10).fill('');
 	return (
 		<div className='py-6'>
@@ -16,15 +17,27 @@ const Game = ({ about, color, ended, lock, mania, submitGuess, guesses }: GamePr
 				mania={mania}
 				showRgb={false}
 			/>
+			{
+				mania &&
+				<div className='flex justify-center my-2'>
+					<div
+						className='border-2 rounded-full border-white/80 p-1 cursor-pointer transition-colors duration-100 hover:bg-white/40'
+						onClick={refreshColor}
+						title='Get a new color'
+					>
+						<BiRefresh size={32} />
+					</div>
+				</div>
+			}
 			<div
 				className='mt-2 flex flex-row justify-center h-6'
 			>
 				{
-					['R', 'G', 'B'].map(c => 
+					['R', 'G', 'B'].map(c =>
 						<div className='mx-2 w-12 text-center font-title text-xl' key={c}>
 							{c}
 						</div>
-						)
+					)
 				}
 				<div className='mx-2 w-12 h-12'></div> {/* Simulates the 'Enter' button for alignment */}
 			</div>

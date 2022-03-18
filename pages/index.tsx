@@ -117,13 +117,7 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 		localStorage.setItem('RGBDLE_LAST_IGNORED_WARNING', process.env.NEXT_PUBLIC_WARNING!);
 	};
 
-	/* Disable body scrolling when a popup is opened. */
-	useEffect(() => {
-		document.body.style.overflow = (showGuide || showResults) ? 'hidden' : '';
-	}, [showGuide, showResults]);
-
-	useEffect(() => {
-		/* Checking the save of today's game. */
+	const refreshColor = (): void => {
 		if (mania) {
 			const random = () => Math.floor(Math.random() * 255);
 			const rgb: [number, number, number] = [random(), random(), random()];
@@ -132,7 +126,19 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 			const color = { rgb, name, day };
 			setColor(color);
 			setIsLoading(false);
+			setGuesses([]);
 		}
+	}
+
+	/* Disable body scrolling when a popup is opened. */
+	useEffect(() => {
+		document.body.style.overflow = (showGuide || showResults) ? 'hidden' : '';
+	}, [showGuide, showResults]);
+
+	useEffect(() => {
+		/* Checking the save of today's game. */
+		if (mania)
+			refreshColor();
 		else {
 
 			const save = parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
@@ -258,6 +264,7 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 							guesses={guesses}
 							lock={lock}
 							mania={mania}
+							refreshColor={refreshColor}
 							submitGuess={submitGuess}
 						/>
 						<div className='px-4 text-center text-slate-500/40 dark:text-gray-50/30'>
