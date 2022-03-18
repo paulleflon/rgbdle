@@ -269,7 +269,9 @@ If you have any trouble playing the game, I would recommend you use another brow
 							Built at {build.date}
 							<br />
 							Version {build.version} |
-							Commit : <a href={`https://github.com/hickatheworld/rgbdle/commit/${build.commit}`} target='_blank'>{build.commit.substring(0, 7)}</a>
+							Commit : <a href={`https://github.com/hickatheworld/rgbdle/commit/${build.commit}`} target='_blank' rel='noreferrer'>
+								{build.commit.substring(0, 7)}
+							</a>
 						</div>
 						<Results
 							attempts={attempts}
