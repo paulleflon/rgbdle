@@ -125,6 +125,8 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 			const day = -25;
 			const color = { rgb, name, day };
 			setColor(color);
+			setEnded(false);
+			setLock([false, false, false]);
 			setIsLoading(false);
 			setGuesses([]);
 		}
