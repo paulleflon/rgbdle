@@ -117,11 +117,20 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 		localStorage.setItem('RGBDLE_LAST_IGNORED_WARNING', process.env.NEXT_PUBLIC_WARNING!);
 	};
 
-	const refreshColor = (): void => {
+	const refreshColor = async (): Promise<void> => {
 		if (mania) {
 			const random = () => Math.floor(Math.random() * 255);
 			const rgb: [number, number, number] = [random(), random(), random()];
-			const name = 'Random color';
+			let name;
+			try {
+				const result = await fetch('https://www.thecolorapi.com/id?rgb=' + rgb.join(','));
+				const data = await result.json();
+				name = data.name.value;
+			} catch (err) {
+				console.error('An error occurred fetching the color name.');
+				console.error(err);
+				name = 'Random color';
+			}
 			const day = -25;
 			const color = { rgb, name, day };
 			setColor(color);

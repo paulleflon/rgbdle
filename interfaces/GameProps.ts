@@ -33,7 +33,7 @@ interface GameProps {
 	/**
 	 * Function that refreshes the color to guess. Only in mania.
 	 */
-	refreshColor: () => void;
+	refreshColor: () => Promise<void>;
 	/**
 	 * The function to call when the user submits a color guess.
 	 */
