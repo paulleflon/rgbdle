@@ -227,7 +227,7 @@ If you have any trouble playing the game, I would recommend you use another brow
 	}
 
 	return (
-		<div className='relative h-full overflow-hidden'>
+		<>
 			{head}
 			{
 				isLoading ?
@@ -238,7 +238,7 @@ If you have any trouble playing the game, I would recommend you use another brow
 						></div>
 					</div>
 					:
-					<div className='relative h-full overflow-y-auto'>
+					<>
 						<Header display={display} />
 						<Game
 							about={about}
@@ -290,10 +290,10 @@ If you have any trouble playing the game, I would recommend you use another brow
 							displayed={showWarning}
 							message={warningMessage}
 						/>
-					</div>
+					</>
 
 			}
-		</div>
+		</>
 	);
 }
 export default Home;
