@@ -10,6 +10,10 @@ interface ColorDisplayerProps {
 	 */
 	color: ColorInfo;
 	/**
+	 * Whether the game is in mania mode.
+	 */
+	mania: boolean;
+	/**
 	 * Whether to show the answer.  
 	 * `false` when this component is used in the `Game` component.  
 	 * `true` when this component is used in the `Results` component.

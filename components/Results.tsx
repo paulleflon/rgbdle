@@ -75,6 +75,7 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 					<ColorDisplayer
 						color={color}
 						showRgb={true}
+						mania={false}
 					/>
 					<div className='text-center'>
 						{attempts.at(-1) === -1

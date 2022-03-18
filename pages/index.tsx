@@ -252,7 +252,7 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 					<>
 						<Header display={display} mania={mania} />
 						<Game
-							about={about}
+							about={mania ? undefined : about}
 							color={color}
 							ended={ended}
 							guesses={guesses}
