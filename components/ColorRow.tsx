@@ -1,5 +1,7 @@
 import { ReactElement, useRef } from 'react';
 import ColorRowProps from '../interfaces/ColorRowProps';
+import { HiOutlinePlusSm, HiMinusSm } from 'react-icons/hi';
+import { MdDone } from 'react-icons/md';
 
 /**
  * A row of color values.
@@ -15,6 +17,18 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 			const displayedColors: string[] = Array(3)
 				.fill('')
 				.map((_, i) => (guess![i] === correct[i]) ? '#49da1e' : (guess![i] < correct[i]) ? '#da1e8d' : '#e9900a');
+			const valueIndicators = Array(3)
+				.fill(null)
+				.map((_, i) => (guess![i] === correct[i]) ?
+					// The icon looks too big in size 24, but we have to give all icons the same size for alignment.
+					// So to balance the size, we affect the scale.
+					<MdDone size={24} className='scale-[0.9]' />
+					:
+					(guess![i] < correct[i]) ?
+						<HiOutlinePlusSm size={24} />
+						: <HiMinusSm size={24} />
+				);
+
 			return (
 				<div className='color-row'>
 					{
@@ -24,9 +38,7 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 								key={i}
 								style={{ backgroundColor: displayedColors[i] }}
 							>
-								<div>
-									{['R', 'G', 'B'][i]}
-								</div>
+								{valueIndicators[i]}
 								<div className='font-body'>
 									{value}
 								</div>
@@ -68,9 +80,7 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 						refs.map((ref, i) => (
 							lock![i] ?
 								<div className='color-row-cell bg-[#49da1e]' key={i}>
-									<div>
-										{['R', 'G', 'B'][i]}
-									</div>
+									<MdDone size={24} className='scale-[0.9]' />
 									<div className='font-body'>
 										{correct[i]}
 									</div>
