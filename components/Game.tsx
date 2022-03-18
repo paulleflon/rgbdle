@@ -15,6 +15,18 @@ const Game = ({ about, color, ended, lock, submitGuess, guesses }: GameProps): R
 				color={color}
 				showRgb={false}
 			/>
+			<div
+				className='mt-2 flex flex-row justify-center h-6'
+			>
+				{
+					['R', 'G', 'B'].map(c => 
+						<div className='mx-2 w-12 text-center font-title text-xl'>
+							{c}
+						</div>
+						)
+				}
+				<div className='mx-2 w-12 h-12'></div> {/* Simulates the 'Enter' button for alignment */}
+			</div>
 			{
 				rows.map((_, i) => (
 					guesses.length > i
