@@ -22,12 +22,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	`;
 		const lastGuess = guesses[guesses.length - 1];
 		const didGuess = lastGuess[0] === correct[0] && lastGuess[1] === correct[1] && lastGuess[2] === correct[2];
+		const hex = `${lastGuess[0].toString(16)}${lastGuess[1].toString(16)}${lastGuess[2].toString(16)}`;
 		const embed = {
 			title: 'New game submitted!',
 			description: body,
 			color: 0x2f3136,
 			thumbnail: {
-				url: 'https://rgbdle.hicka.world/android-chrome-512x512.png'
+				url: day === -25 ? `https://singlecolorimage.com/get/${hex}/512x512` : 'https://rgbdle.hicka.world/android-chrome-512x512.png'
 			},
 			footer: {
 				text: `RGBdle ${day === -25 ? 'Mania' : day} ${didGuess ? guesses.length : 'X'}/10`
