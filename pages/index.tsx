@@ -46,6 +46,12 @@ const Home = ({ about, build, colors }: RGBdleProps) => {
 	const [showWarning, setShowWarning] = useState(false);
 	// The warning message to display.
 	const [warningMessage, setWarningMessage] = useState('');
+
+	/* Disable body scrolling when a popup is opened. */
+	useEffect(() => {
+		document.body.style.overflow =  (showGuide || showResults) ? 'hidden' : '';
+	}, [showGuide, showResults]);
+
 	useEffect(() => {
 		/* Checking the save of today's game. */
 		const save = parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
@@ -85,13 +91,6 @@ const Home = ({ about, build, colors }: RGBdleProps) => {
 				setShowWarning(true);
 				setWarningMessage(process.env.NEXT_PUBLIC_WARNING_MESSAGE);
 			}
-		}
-
-		/* Telling Safari users to use a fucking web browser, not a trashcan capable of opening webpages. */
-		if (/apple/i.test(navigator.vendor) && localStorage.getItem('RGBDLE_SAFARI_WARNING') !== 'false') {
-			alert('Hey, you seem to be using Safari to play RGBdle. This browser often offers unexpected behavior.\n \
-If you have any trouble playing the game, I would recommend you use another browser, such as Firefox or Chrome.');
-			localStorage.setItem('RGBDLE_SAFARI_WARNING', 'false');
 		}
 
 		/* Keyboard shortcut to close popup. */
@@ -227,7 +226,7 @@ If you have any trouble playing the game, I would recommend you use another brow
 	}
 
 	return (
-		<div className='relative h-full overflow-hidden'>
+		<>
 			{head}
 			{
 				isLoading ?
@@ -238,7 +237,7 @@ If you have any trouble playing the game, I would recommend you use another brow
 						></div>
 					</div>
 					:
-					<div className='relative h-full overflow-y-auto'>
+					<>
 						<Header display={display} />
 						<Game
 							about={about}
@@ -290,10 +289,10 @@ If you have any trouble playing the game, I would recommend you use another brow
 							displayed={showWarning}
 							message={warningMessage}
 						/>
-					</div>
+					</>
 
 			}
-		</div>
+		</>
 	);
 }
 export default Home;
