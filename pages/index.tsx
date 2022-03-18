@@ -1,3 +1,4 @@
+import { execSync } from 'child_process';
 import { parse } from 'comment-json';
 import { readFileSync } from 'fs';
 import Head from 'next/head';
@@ -17,7 +18,7 @@ import RGBdleProps from '../interfaces/RGBdleProps';
  * @param props The props of the page.
  * @param props.colors ColorInfo objects for the upcoming games.
  */
-const Home = ({ about, colors }: RGBdleProps) => {
+const Home = ({ about, build, colors }: RGBdleProps) => {
 	const d = new Date();
 	const formatted = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 	// We use state so that the value doesn't change on re-render.
@@ -247,7 +248,7 @@ If you have any trouble playing the game, I would recommend you use another brow
 							lock={lock}
 							submitGuess={submitGuess}
 						/>
-						<div className='px-4 text-center text-slate-500/40 dark:text-gray-50/10'>
+						<div className='px-4 text-center text-slate-500/40 dark:text-gray-50/30'>
 							<div className='inline mr-2'>
 								Report bugs, see source code, star or contribute on
 							</div>
@@ -263,6 +264,12 @@ If you have any trouble playing the game, I would recommend you use another brow
 									GitHub
 								</div>
 							</a>
+						</div>
+						<div className='font-mono text-slate-500/40 dark:text-gray-50/20 text-center text-xs py-1'>
+							Built at {build.date}
+							<br />
+							Version {build.version} |
+							Commit : <a href={`https://github.com/hickatheworld/rgbdle/commit/${build.commit}`} target='_blank'>{build.commit.substring(0, 7)}</a>
 						</div>
 						<Results
 							attempts={attempts}
@@ -282,6 +289,7 @@ If you have any trouble playing the game, I would recommend you use another brow
 							message={warningMessage}
 						/>
 					</div>
+
 			}
 		</div>
 	);
@@ -289,6 +297,12 @@ If you have any trouble playing the game, I would recommend you use another brow
 export default Home;
 
 export function getStaticProps(): { props: RGBdleProps } {
+	// Build data
+	const commit = execSync('git rev-parse HEAD').toString().trim();
+	const version = require('../package.json').version;
+	const date = new Date().toUTCString();
+
+	// Color Data
 	const data = parse(readFileSync(join(process.cwd(), 'COLORS.json'), 'utf8')) as any as Record<string, ColorInfo & { date: string }>;
 	let d = new Date();
 	const formatted = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
@@ -302,17 +316,11 @@ export function getStaticProps(): { props: RGBdleProps } {
 			colors[k] = v;
 		}
 	}
-	return (process.env.COLOR_ABOUT) ?
-		{
-			props: {
-				about: process.env.COLOR_ABOUT,
-				colors
-			}
+	return {
+		props: {
+			build: { commit, date, version },
+			about: process.env.COLOR_ABOUT,
+			colors
 		}
-		:
-		{
-			props: {
-				colors
-			}
-		};
+	};
 }
