@@ -21,11 +21,7 @@ import RGBdleProps from '../interfaces/RGBdleProps';
 const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 	const d = new Date();
 	const formatted = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-	// We use state so that the value doesn't change on re-render.
-	// In case the user stays on the same session around midnight, while the Results component is opened
-	// as this component re-renders every second.
-	const [color, _setColor] = useState<ColorInfo>(colors[formatted] || { rgb: [4, 20, 69], name: 'Backup color', day: 69420 }); // In case something fucks up.
-
+	const [color, setColor] = useState<ColorInfo>(colors[formatted] || { rgb: [4, 20, 69], name: 'Backup color', day: 69420 }); // In case something fucks up.
 	// Array storing the amount of guesses ([1;10]) submitted by the user for each game they have played.
 	// -1 means they didn't find the color after 10 attempts in that game.
 	// If the user didn't finish a game, this game is not included in the array.
@@ -49,35 +45,47 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 
 	/* Disable body scrolling when a popup is opened. */
 	useEffect(() => {
-		document.body.style.overflow =  (showGuide || showResults) ? 'hidden' : '';
+		document.body.style.overflow = (showGuide || showResults) ? 'hidden' : '';
 	}, [showGuide, showResults]);
 
 	useEffect(() => {
 		/* Checking the save of today's game. */
-		const save = parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
-		// It can be anything, the user may have messed up with localStorage. And `unknown` is a bullshit type.
-		if (
-			// Type checks
-			typeof save.day === 'number' &&
-			typeof save.ended === 'boolean' &&
-			typeof save.guesses === 'object' &&
-			// If no guess is stored, no need to consider this save. Well there is no reason for a save without guesses to exist but just in case.
-			save.guesses.length > 0 &&
-			// This save is relevant only if it's for the same game day.
-			save.day === color.day
-		) {
-			setGuesses(save.guesses);
-			setEnded(save.ended);
-			const lastGuess = save.guesses.at(-1);
-			setLock([lastGuess[0] === color.rgb[0], lastGuess[1] === color.rgb[1], lastGuess[2] === color.rgb[2]]);
-		} else {
-			localStorage.setItem('RGBDLE_SAVE', '');
+		if (mania) {
+			const random = () => Math.floor(Math.random() * 255);
+			const rgb: [number, number, number] = [random(), random(), random()];
+			const name = 'Random color';
+			const day = 0;
+			const color = { rgb, name, day };
+			setColor(color);
+			setIsLoading(false);
 		}
+		else {
 
-		/* Checking the attempts array. */
-		const arr = parse(localStorage.getItem('RGBDLE_ATTEMPTS') || '[]') as number[];
-		setAttempts(arr);
-		setIsLoading(false);
+			const save = parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
+			// It can be anything, the user may have messed up with localStorage. And `unknown` is a bullshit type.
+			if (
+				// Type checks
+				typeof save.day === 'number' &&
+				typeof save.ended === 'boolean' &&
+				typeof save.guesses === 'object' &&
+				// If no guess is stored, no need to consider this save. Well there is no reason for a save without guesses to exist but just in case.
+				save.guesses.length > 0 &&
+				// This save is relevant only if it's for the same game day.
+				save.day === color.day
+			) {
+				setGuesses(save.guesses);
+				setEnded(save.ended);
+				const lastGuess = save.guesses.at(-1);
+				setLock([lastGuess[0] === color.rgb[0], lastGuess[1] === color.rgb[1], lastGuess[2] === color.rgb[2]]);
+			} else {
+				localStorage.setItem('RGBDLE_SAVE', '');
+			}
+
+			/* Checking the attempts array. */
+			const arr = parse(localStorage.getItem('RGBDLE_ATTEMPTS') || '[]') as number[];
+			setAttempts(arr);
+			setIsLoading(false);
+		}
 
 		/* Opening guide if it's the first time the user is playing. */
 		const alreadyPlayed = localStorage.getItem('RGBDLE_FIRST_TIME') === 'false';
@@ -110,11 +118,13 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 				setLock(lock);
 			}
 		}
-		localStorage.setItem('RGBDLE_SAVE', JSON.stringify({
-			day: color.day,
-			ended: correct === 3 || guesses.length + 1 === 10,
-			guesses: [...guesses, guess]
-		}));
+		if (!mania) {
+			localStorage.setItem('RGBDLE_SAVE', JSON.stringify({
+				day: color.day,
+				ended: correct === 3 || guesses.length + 1 === 10,
+				guesses: [...guesses, guess]
+			}));
+		}
 		if (correct === 3)
 			endGame(guesses.length + 1, [...guesses, guess]);
 		else if (guesses.length + 1 === 10)
@@ -124,8 +134,11 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 	const endGame = async (attemptsCount: number, guesses: [number, number, number][]): Promise<void> => {
 		setEnded(true);
 		attempts.push(attemptsCount);
-		localStorage.setItem('RGBDLE_ATTEMPTS', JSON.stringify(attempts));
 		setAttempts(attempts);
+		if (!mania) {
+			localStorage.setItem('RGBDLE_ATTEMPTS', JSON.stringify(attempts));
+			display('results');
+		}
 		// Sending game results to webhook.
 		fetch('/api/sendGame', {
 			method: 'POST',
@@ -144,7 +157,6 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 			console.error('Failed to send game results. Error:');
 			console.error(e);
 		});
-		display('results');
 	}
 
 	// If the user somehow triggers the display of one popup while another is already open, we make sure to avoid overlapping.
