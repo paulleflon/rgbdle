@@ -5,7 +5,8 @@ import { IoMdPodium } from 'react-icons/io';
 /**
  * Header of the RGBdle app.
  */
-const Header = ({ display }: { display: (component: 'none' | 'results' | 'guide') => void }): ReactElement => {
+const Header = ({ display, mania }: { display: (component: 'none' | 'results' | 'guide') => void, mania: boolean }): ReactElement => {
+	// sorry really i'm too lazy to make this a proper interface.
 	return (
 		<div
 			className='flex items-center justify-center border-b border-gray-300

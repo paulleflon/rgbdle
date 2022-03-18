@@ -18,7 +18,7 @@ import RGBdleProps from '../interfaces/RGBdleProps';
  * @param props The props of the page.
  * @param props.colors ColorInfo objects for the upcoming games.
  */
-const Home = ({ about, build, colors }: RGBdleProps) => {
+const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 	const d = new Date();
 	const formatted = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 	// We use state so that the value doesn't change on re-render.
@@ -238,13 +238,14 @@ const Home = ({ about, build, colors }: RGBdleProps) => {
 					</div>
 					:
 					<>
-						<Header display={display} />
+						<Header display={display} mania={mania} />
 						<Game
 							about={about}
 							color={color}
 							ended={ended}
 							guesses={guesses}
 							lock={lock}
+							mania={mania}
 							submitGuess={submitGuess}
 						/>
 						<div className='px-4 text-center text-slate-500/40 dark:text-gray-50/30'>
@@ -321,7 +322,9 @@ export function getStaticProps(): { props: RGBdleProps } {
 		props: {
 			build: { commit, date, version },
 			about: process.env.COLOR_ABOUT,
-			colors
+			colors,
+			// mania is to be set to true manually in mania.tsx
+			mania: false
 		}
 	};
 }
