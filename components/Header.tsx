@@ -52,13 +52,15 @@ const Header = ({ display, mania }: { display: (component: 'none' | 'results' | 
 				>
 					<FaQuestionCircle></FaQuestionCircle>
 				</button>
-				<button
-					onClick={() => display('results')}
-					className='mx-1 md:mx-2 transition-transform duration-100
-						motion-reduce:transition-none  hover:scale-[1.05] focus-visible:text-orange-500 outline-none'
-				>
-					<IoMdPodium></IoMdPodium>
-				</button>
+				{mania ||
+					<button
+						onClick={() => display('results')}
+						className='mx-1 md:mx-2 transition-transform duration-100
+				motion-reduce:transition-none  hover:scale-[1.05] focus-visible:text-orange-500 outline-none'
+					>
+						<IoMdPodium></IoMdPodium>
+					</button>
+				}
 			</div>
 		</div>
 	);
