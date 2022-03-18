@@ -11,7 +11,7 @@ const ColorDisplayer = ({ about, color, mania, showRgb }: ColorDisplayerProps): 
 		>
 			<div
 				className='flex flex-col items-center justify-center rounded my-2
-				w-32 h-32 md:w-48 md:h-48 text-center'
+				w-32 h-32 md:w-48 md:h-48 text-center transition-colors duration-200'
 				onMouseLeave={() => setAboutDisplayed(false)}
 				style={{
 					backgroundColor: `rgb(${color.rgb.join(',')})`,
