@@ -20,7 +20,7 @@ const Game = ({ about, color, ended, lock, submitGuess, guesses }: GameProps): R
 			>
 				{
 					['R', 'G', 'B'].map(c => 
-						<div className='mx-2 w-12 text-center font-title text-xl'>
+						<div className='mx-2 w-12 text-center font-title text-xl' key={c}>
 							{c}
 						</div>
 						)
