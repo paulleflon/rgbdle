@@ -46,6 +46,12 @@ const Home = ({ about, build, colors }: RGBdleProps) => {
 	const [showWarning, setShowWarning] = useState(false);
 	// The warning message to display.
 	const [warningMessage, setWarningMessage] = useState('');
+
+	/* Disable body scrolling when a popup is opened. */
+	useEffect(() => {
+		document.body.style.overflow =  (showGuide || showResults) ? 'hidden' : '';
+	}, [showGuide, showResults]);
+
 	useEffect(() => {
 		/* Checking the save of today's game. */
 		const save = parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
