@@ -122,7 +122,7 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 			const random = () => Math.floor(Math.random() * 255);
 			const rgb: [number, number, number] = [random(), random(), random()];
 			const name = 'Random color';
-			const day = 0;
+			const day = -25;
 			const color = { rgb, name, day };
 			setColor(color);
 			setIsLoading(false);
