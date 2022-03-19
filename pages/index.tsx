@@ -349,7 +349,7 @@ export function getStaticProps(): { props: RGBdleProps } {
 	return {
 		props: {
 			build: { commit, date, version },
-			about: process.env.COLOR_ABOUT,
+			about: process.env.COLOR_ABOUT || '',
 			colors,
 			// mania is to be set to true manually in mania.tsx
 			mania: false
