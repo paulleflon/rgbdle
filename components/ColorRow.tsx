@@ -28,8 +28,6 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 						<HiOutlinePlusSm size={24} />
 						: <HiMinusSm size={24} />
 				);
-			const resultContrast = (guess![0] + guess![1] + guess![2]) / (255 * 3);
-
 
 			return (
 				<div className='color-row'>
@@ -48,14 +46,10 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 						))
 					}
 					<div
-						className='color-row-cell text-xs font-title'
-						style={{
-							color: resultContrast > 0.5 ? 'black' : 'white',
-							backgroundColor: `rgb(${guess![0]}, ${guess![1]}, ${guess![2]})`
-						}}
+						className='color-row-cell'
+						style={{backgroundColor: `rgb(${guess![0]}, ${guess![1]}, ${guess![2]})`}}
 						title={`This is what rgb(${guess![0]}, ${guess![1]}, ${guess![2]}) looks like!`}
 					>
-						Result
 					</div>
 				</div>
 			);

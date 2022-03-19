@@ -30,7 +30,7 @@ const Game = ({ about, color, ended, guesses, lock, mania, refreshColor, submitG
 				</div>
 			}
 			<div
-				className='mt-2 flex flex-row justify-center h-6'
+				className='mt-2 flex flex-row justify-center items-center h-6'
 			>
 				{
 					['R', 'G', 'B'].map(c =>
@@ -39,7 +39,9 @@ const Game = ({ about, color, ended, guesses, lock, mania, refreshColor, submitG
 						</div>
 					)
 				}
-				<div className='mx-2 w-12 h-12'></div> {/* Simulates the 'Enter' button for alignment */}
+				<div className='mx-2 w-12 text-sm font-title'>
+					Result
+				</div> {/* Simulates the 'Enter' button for alignment */}
 			</div>
 			{
 				rows.map((_, i) => (
