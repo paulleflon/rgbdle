@@ -33,6 +33,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			footer: {
 				text: `RGBdle ${day === -25 ? 'Mania' : day} ${didGuess ? guesses.length : 'X'}/10`
 			},
+			image: {
+				url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/guessImage?guesses=${encodeURIComponent(JSON.stringify(guesses))}`
+			},
 			timestamp: new Date().toISOString()
 		}
 		await fetch(process.env.DISCORD_HOOK_URL!, {
