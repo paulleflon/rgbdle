@@ -24,7 +24,6 @@ const calculateTimeLeft = () => {
 
 const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsProps) => {
 
-
 	const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 	const shareIconRef = useRef<HTMLDivElement>(null);
 	const checkIconRef = useRef<HTMLDivElement>(null);
@@ -133,7 +132,6 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 				<div className='mx-1 sm:mx-4'>
 					<div className='text-2xl md:text-5xl font-title'>
 						{currentStreak}
-						{console.log({ currentStreak })}
 					</div>
 					<div className='text-xs md:text-sm'>
 						Current win streak
