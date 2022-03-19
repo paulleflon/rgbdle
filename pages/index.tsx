@@ -117,27 +117,25 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 		localStorage.setItem('RGBDLE_LAST_IGNORED_WARNING', process.env.NEXT_PUBLIC_WARNING!);
 	};
 
-	const refreshColor = async (): Promise<void> => {
+	const refreshColor = (): void => {
 		if (mania) {
-			const random = () => Math.floor(Math.random() * 255);
-			const rgb: [number, number, number] = [random(), random(), random()];
-			let name;
-			try {
-				const result = await fetch('https://www.thecolorapi.com/id?rgb=' + rgb.join(','));
-				const data = await result.json();
-				name = data.name.value;
-			} catch (err) {
-				console.error('An error occurred fetching the color name.');
-				console.error(err);
-				name = 'Random color';
-			}
-			const day = -25;
-			const color = { rgb, name, day };
-			setColor(color);
+			// Resetting state to initial values.
+			setIsLoading(false);
 			setEnded(false);
 			setLock([false, false, false]);
-			setIsLoading(false);
 			setGuesses([]);
+			// Setting a new color to guess.
+			const random = () => Math.floor(Math.random() * 255);
+			const rgb: [number, number, number] = [random(), random(), random()];
+			const day = -25;
+			setColor({ rgb, name: '...', day });
+			// Fetching the color name in a non-blocking way.
+			let name: string;
+			fetch('https://www.thecolorapi.com/id?rgb=' + rgb.join(','))
+				.then(res => res.json())
+				.then(res => name = res.name.value)
+				.catch(_ => name = 'Random color')
+				.finally(() => setColor({ rgb, name, day }));
 		}
 	}
 
