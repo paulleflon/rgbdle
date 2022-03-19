@@ -26,5 +26,9 @@ interface RGBdleProps {
 	 * All colors to play from this day.
 	*/
 	colors: Record<string, ColorInfo>;
+	/**
+	 * Whether the game is in mania mode.
+	 */
+	mania: boolean;
 }
 export default RGBdleProps;

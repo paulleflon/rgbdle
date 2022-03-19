@@ -18,14 +18,10 @@ import RGBdleProps from '../interfaces/RGBdleProps';
  * @param props The props of the page.
  * @param props.colors ColorInfo objects for the upcoming games.
  */
-const Home = ({ about, build, colors }: RGBdleProps) => {
+const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 	const d = new Date();
 	const formatted = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-	// We use state so that the value doesn't change on re-render.
-	// In case the user stays on the same session around midnight, while the Results component is opened
-	// as this component re-renders every second.
-	const [color, _setColor] = useState<ColorInfo>(colors[formatted] || { rgb: [4, 20, 69], name: 'Backup color', day: 69420 }); // In case something fucks up.
-
+	const [color, setColor] = useState<ColorInfo>(colors[formatted] || { rgb: [4, 20, 69], name: 'Backup color', day: 69420 }); // In case something fucks up.
 	// Array storing the amount of guesses ([1;10]) submitted by the user for each game they have played.
 	// -1 means they didn't find the color after 10 attempts in that game.
 	// If the user didn't finish a game, this game is not included in the array.
@@ -47,59 +43,6 @@ const Home = ({ about, build, colors }: RGBdleProps) => {
 	// The warning message to display.
 	const [warningMessage, setWarningMessage] = useState('');
 
-	/* Disable body scrolling when a popup is opened. */
-	useEffect(() => {
-		document.body.style.overflow =  (showGuide || showResults) ? 'hidden' : '';
-	}, [showGuide, showResults]);
-
-	useEffect(() => {
-		/* Checking the save of today's game. */
-		const save = parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
-		// It can be anything, the user may have messed up with localStorage. And `unknown` is a bullshit type.
-		if (
-			// Type checks
-			typeof save.day === 'number' &&
-			typeof save.ended === 'boolean' &&
-			typeof save.guesses === 'object' &&
-			// If no guess is stored, no need to consider this save. Well there is no reason for a save without guesses to exist but just in case.
-			save.guesses.length > 0 &&
-			// This save is relevant only if it's for the same game day.
-			save.day === color.day
-		) {
-			setGuesses(save.guesses);
-			setEnded(save.ended);
-			const lastGuess = save.guesses.at(-1);
-			setLock([lastGuess[0] === color.rgb[0], lastGuess[1] === color.rgb[1], lastGuess[2] === color.rgb[2]]);
-		} else {
-			localStorage.setItem('RGBDLE_SAVE', '');
-		}
-
-		/* Checking the attempts array. */
-		const arr = parse(localStorage.getItem('RGBDLE_ATTEMPTS') || '[]') as number[];
-		setAttempts(arr);
-		setIsLoading(false);
-
-		/* Opening guide if it's the first time the user is playing. */
-		const alreadyPlayed = localStorage.getItem('RGBDLE_FIRST_TIME') === 'false';
-		setShowGuide(!alreadyPlayed);
-		localStorage.setItem('RGBDLE_FIRST_TIME', 'false');
-
-		/* Opening Warning if needed */
-		if (process.env.NEXT_PUBLIC_WARNING && process.env.NEXT_PUBLIC_WARNING_MESSAGE) {
-			const lastIgnored = localStorage.getItem('RGBDLE_LAST_IGNORED_WARNING') || '';
-			if (lastIgnored !== process.env.NEXT_PUBLIC_WARNING) {
-				setShowWarning(true);
-				setWarningMessage(process.env.NEXT_PUBLIC_WARNING_MESSAGE);
-			}
-		}
-
-		/* Keyboard shortcut to close popup. */
-		window.addEventListener('keydown', (e) => {
-			if (e.key === 'Escape')
-				display('none');
-		});
-	}, []);
-
 	const submitGuess = (guess: [number, number, number]): void => {
 		let correct = 0;
 		setGuesses((prev) => [...prev, guess]);
@@ -110,11 +53,13 @@ const Home = ({ about, build, colors }: RGBdleProps) => {
 				setLock(lock);
 			}
 		}
-		localStorage.setItem('RGBDLE_SAVE', JSON.stringify({
-			day: color.day,
-			ended: correct === 3 || guesses.length + 1 === 10,
-			guesses: [...guesses, guess]
-		}));
+		if (!mania) {
+			localStorage.setItem('RGBDLE_SAVE', JSON.stringify({
+				day: color.day,
+				ended: correct === 3 || guesses.length + 1 === 10,
+				guesses: [...guesses, guess]
+			}));
+		}
 		if (correct === 3)
 			endGame(guesses.length + 1, [...guesses, guess]);
 		else if (guesses.length + 1 === 10)
@@ -124,8 +69,11 @@ const Home = ({ about, build, colors }: RGBdleProps) => {
 	const endGame = async (attemptsCount: number, guesses: [number, number, number][]): Promise<void> => {
 		setEnded(true);
 		attempts.push(attemptsCount);
-		localStorage.setItem('RGBDLE_ATTEMPTS', JSON.stringify(attempts));
 		setAttempts(attempts);
+		if (!mania) {
+			localStorage.setItem('RGBDLE_ATTEMPTS', JSON.stringify(attempts));
+			display('results');
+		}
 		// Sending game results to webhook.
 		fetch('/api/sendGame', {
 			method: 'POST',
@@ -144,7 +92,6 @@ const Home = ({ about, build, colors }: RGBdleProps) => {
 			console.error('Failed to send game results. Error:');
 			console.error(e);
 		});
-		display('results');
 	}
 
 	// If the user somehow triggers the display of one popup while another is already open, we make sure to avoid overlapping.
@@ -169,6 +116,86 @@ const Home = ({ about, build, colors }: RGBdleProps) => {
 		setShowWarning(false);
 		localStorage.setItem('RGBDLE_LAST_IGNORED_WARNING', process.env.NEXT_PUBLIC_WARNING!);
 	};
+
+	const refreshColor = (): void => {
+		if (mania) {
+			// Resetting state to initial values.
+			setIsLoading(false);
+			setEnded(false);
+			setLock([false, false, false]);
+			setGuesses([]);
+			// Setting a new color to guess.
+			const random = () => Math.floor(Math.random() * 255);
+			const rgb: [number, number, number] = [random(), random(), random()];
+			const day = -25;
+			setColor({ rgb, name: '...', day });
+			// Fetching the color name in a non-blocking way.
+			let name: string;
+			fetch('https://www.thecolorapi.com/id?rgb=' + rgb.join(','))
+				.then(res => res.json())
+				.then(res => name = res.name.value)
+				.catch(_ => name = 'Random color')
+				.finally(() => setColor({ rgb, name, day }));
+		}
+	}
+
+	/* Disable body scrolling when a popup is opened. */
+	useEffect(() => {
+		document.body.style.overflow = (showGuide || showResults) ? 'hidden' : '';
+	}, [showGuide, showResults]);
+
+	useEffect(() => {
+		/* Checking the save of today's game. */
+		if (mania)
+			refreshColor();
+		else {
+
+			const save = parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
+			// It can be anything, the user may have messed up with localStorage. And `unknown` is a bullshit type.
+			if (
+				// Type checks
+				typeof save.day === 'number' &&
+				typeof save.ended === 'boolean' &&
+				typeof save.guesses === 'object' &&
+				// If no guess is stored, no need to consider this save. Well there is no reason for a save without guesses to exist but just in case.
+				save.guesses.length > 0 &&
+				// This save is relevant only if it's for the same game day.
+				save.day === color.day
+			) {
+				setGuesses(save.guesses);
+				setEnded(save.ended);
+				const lastGuess = save.guesses.at(-1);
+				setLock([lastGuess[0] === color.rgb[0], lastGuess[1] === color.rgb[1], lastGuess[2] === color.rgb[2]]);
+			} else {
+				localStorage.setItem('RGBDLE_SAVE', '');
+			}
+
+			/* Checking the attempts array. */
+			const arr = parse(localStorage.getItem('RGBDLE_ATTEMPTS') || '[]') as number[];
+			setAttempts(arr);
+			setIsLoading(false);
+		}
+
+		/* Opening guide if it's the first time the user is playing. */
+		const alreadyPlayed = localStorage.getItem('RGBDLE_FIRST_TIME') === 'false';
+		setShowGuide(!alreadyPlayed);
+		localStorage.setItem('RGBDLE_FIRST_TIME', 'false');
+
+		/* Opening Warning if needed */
+		if (process.env.NEXT_PUBLIC_WARNING && process.env.NEXT_PUBLIC_WARNING_MESSAGE) {
+			const lastIgnored = localStorage.getItem('RGBDLE_LAST_IGNORED_WARNING') || '';
+			if (lastIgnored !== process.env.NEXT_PUBLIC_WARNING) {
+				setShowWarning(true);
+				setWarningMessage(process.env.NEXT_PUBLIC_WARNING_MESSAGE);
+			}
+		}
+
+		/* Keyboard shortcut to close popup. */
+		window.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape')
+				display('none');
+		});
+	}, []);
 
 	const head = (
 		<Head>
@@ -238,13 +265,15 @@ const Home = ({ about, build, colors }: RGBdleProps) => {
 					</div>
 					:
 					<>
-						<Header display={display} />
+						<Header display={display} mania={mania} />
 						<Game
-							about={about}
+							about={mania ? undefined : about}
 							color={color}
 							ended={ended}
 							guesses={guesses}
 							lock={lock}
+							mania={mania}
+							refreshColor={refreshColor}
 							submitGuess={submitGuess}
 						/>
 						<div className='px-4 text-center text-slate-500/40 dark:text-gray-50/30'>
@@ -321,7 +350,9 @@ export function getStaticProps(): { props: RGBdleProps } {
 		props: {
 			build: { commit, date, version },
 			about: process.env.COLOR_ABOUT,
-			colors
+			colors,
+			// mania is to be set to true manually in mania.tsx
+			mania: false
 		}
 	};
 }

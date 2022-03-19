@@ -2,7 +2,7 @@ import { ReactElement, useState } from 'react';
 import { FaQuestionCircle } from 'react-icons/fa';
 import ColorDisplayerProps from '../interfaces/ColorDisplayerProps';
 
-const ColorDisplayer = ({ about, color, showRgb }: ColorDisplayerProps): ReactElement => {
+const ColorDisplayer = ({ about, color, mania, showRgb }: ColorDisplayerProps): ReactElement => {
 	const [aboutDisplayed, setAboutDisplayed] = useState(false);
 	const contrastRatio = (color.rgb[0] + color.rgb[1] + color.rgb[2]) / (255 * 3);
 	return (
@@ -11,7 +11,7 @@ const ColorDisplayer = ({ about, color, showRgb }: ColorDisplayerProps): ReactEl
 		>
 			<div
 				className='flex flex-col items-center justify-center rounded my-2
-				w-32 h-32 md:w-48 md:h-48 text-center'
+				w-32 h-32 md:w-48 md:h-48 text-center transition-colors duration-200'
 				onMouseLeave={() => setAboutDisplayed(false)}
 				style={{
 					backgroundColor: `rgb(${color.rgb.join(',')})`,
@@ -37,7 +37,7 @@ const ColorDisplayer = ({ about, color, showRgb }: ColorDisplayerProps): ReactEl
 					</>
 				)}
 				<div className='font-body text-xs md:text-lg md:mb-2 transition-opacity duration-75' style={aboutDisplayed ? { opacity: 0 } : { opacity: 1 }}>
-					{showRgb ? 'Today\'s color was' : 'Today\'s color is'}
+					{mania ? 'You have to guess' : showRgb ? 'Today\'s color was' : 'Today\'s color is'}
 				</div>
 				<div className='font-title text-sm lg:text-xl transition-opacity duration-75' style={aboutDisplayed ? { opacity: 0 } : { opacity: 1 }}>
 					{showRgb ? `rgb(${color.rgb.join(', ')})` : color.name}
