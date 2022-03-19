@@ -46,6 +46,29 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 	if (clearAttempts.length === 0)
 		clearAttempts.push('Never gonna give you up' as any as number); // I do what I want and I will put string in number array.
 
+	let currentStreak = 0;
+	attempts.reverse();
+	for (const i of attempts) {
+		if (i === -1)
+			break;
+		currentStreak++;
+	}
+	attempts.reverse();
+	let bestStreak = 0;
+	let currentBest = 0;
+	for (const i of attempts) {
+		console.log({ currentBest, bestStreak });
+		if (i === -1) {
+			if (currentBest > bestStreak)
+				bestStreak = currentBest;
+			currentBest = 0;
+		}
+		else
+			currentBest++;
+	}
+	if (currentBest > bestStreak)
+		bestStreak = currentBest;
+
 	const shareString = () => {
 		const lastAttempt = attempts.at(-1);
 		let str = `RGBdle ${color.day} ${lastAttempt === -1 ? 'X' : lastAttempt}/10`;
@@ -89,6 +112,42 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 					</div>
 				</>
 			}
+			<div className='my-4 text-lg md:text-2xl text-center font-title'>Statistics</div>
+			<div className='flex flex-row justify-center text-center'>
+				<div className='mx-1 sm:mx-4'>
+					<div className='text-2xl md:text-5xl font-title'>
+						{attempts.length}
+					</div>
+					<div className='text-xs md:text-sm'>
+						Games played
+					</div>
+				</div>
+				<div className='mx-1 sm:mx-4'>
+					<div className='text-2xl md:text-5xl font-title'>
+						{Math.round(attempts.filter(a => a !== -1).length / attempts.length * 100)}%
+					</div>
+					<div className='text-xs md:text-sm'>
+						Wins
+					</div>
+				</div>
+				<div className='mx-1 sm:mx-4'>
+					<div className='text-2xl md:text-5xl font-title'>
+						{currentStreak}
+						{console.log({ currentStreak })}
+					</div>
+					<div className='text-xs md:text-sm'>
+						Current win streak
+					</div>
+				</div>
+				<div className='mx-1 sm:mx-4'>
+					<div className='text-2xl md:text-5xl font-title'>
+						{bestStreak}
+					</div>
+					<div className='text-xs md:text-sm'>
+						Best win streak
+					</div>
+				</div>
+			</div>
 			<div className='my-4 text-lg md:text-2xl text-center font-title'>Guess Distribution</div>
 			{
 				attempts.length
@@ -112,10 +171,9 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 									// Tailwind arbitrary values can't be used with such volatile CSS.
 									>
 										<div className='cursor-default font-title text-xs'>{i + 1}</div>
-										<div className='cursor-default font-body text-sm'>{distribution[i]}</div>
+										<div className='cursortext-2xl md:-default font-body text-sm'>{distribution[i]}</div>
 									</div>
-								)
-							}
+								)}
 						</div>
 
 					</div>
