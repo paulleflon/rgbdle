@@ -41,7 +41,7 @@ const Game = ({ about, color, ended, guesses, lock, mania, refreshColor, submitG
 				}
 				<div className='mx-2 w-12 text-sm font-title'>
 					Result
-				</div> {/* Simulates the 'Enter' button for alignment */}
+				</div>
 			</div>
 			{
 				rows.map((_, i) => (

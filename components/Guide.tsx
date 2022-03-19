@@ -26,12 +26,26 @@ const Guide = ({ close, displayed }: PopupProps): ReactElement => {
 						Example
 					</div>
 					<div className='text-sm'>
-					<ColorRow
-						correct={[25, 125, 225]}
-						guess={[25, 150, 200]}
-						status='past'
-						submitGuess={(): void => {}}
-					/>
+						<div
+							className='mt-2 flex flex-row justify-center items-center h-6'
+						>
+							{
+								['R', 'G', 'B'].map(c =>
+									<div className='mx-2 w-12 text-center font-title text-xl' key={c}>
+										{c}
+									</div>
+								)
+							}
+							<div className='mx-2 w-12 text-sm font-title'>
+								Result
+							</div>
+						</div>
+						<ColorRow
+							correct={[25, 125, 225]}
+							guess={[25, 150, 200]}
+							status='past'
+							submitGuess={(): void => {}}
+						/>
 					</div>
 					<div>
 						Here, the correct values are 25, 125 and 225, and they make <span className='font-bold text-[#1996C8]'>Pacific Blue</span>.
