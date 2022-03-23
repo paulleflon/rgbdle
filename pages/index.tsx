@@ -29,11 +29,11 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 	// Whether the game has ended, either because the user found the correct color or ran out of attempts.
 	const [ended, setEnded] = useState(false);
 	// The guesses made by the user for this game.
-	const [guesses, setGuesses] = useState<[number, number, number][]>([]);
+	const [guesses, setGuesses] = useState<number[][]>([]);
 	// Whether the app is loading. This is because we need to access the localStorage from a useEffect hook.
 	const [isLoading, setIsLoading] = useState(true);
 	// Which inputs are locked.
-	const [lock, setLock] = useState<[boolean, boolean, boolean]>([false, false, false]);
+	const [lock, setLock] = useState<boolean[]>([false, false, false]);
 	// Whether the `Guide` component is visible.
 	const [showGuide, setShowGuide] = useState(false);
 	// Whether the `Results` component is visible.
@@ -43,7 +43,7 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 	// The warning message to display.
 	const [warningMessage, setWarningMessage] = useState('');
 
-	const submitGuess = (guess: [number, number, number]): void => {
+	const submitGuess = (guess: number[]): void => {
 		let correct = 0;
 		setGuesses((prev) => [...prev, guess]);
 		for (const [i, v] of guess.entries()) {
@@ -66,7 +66,7 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 			endGame(-1, [...guesses, guess]);
 	};
 
-	const endGame = async (attemptsCount: number, guesses: [number, number, number][]): Promise<void> => {
+	const endGame = async (attemptsCount: number, guesses: number[][]): Promise<void> => {
 		setEnded(true);
 		attempts.push(attemptsCount);
 		setAttempts(attempts);
@@ -126,7 +126,7 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 			setGuesses([]);
 			// Setting a new color to guess.
 			const random = () => Math.floor(Math.random() * 255);
-			const rgb: [number, number, number] = [random(), random(), random()];
+			const rgb = [random(), random(), random()];
 			const day = -25;
 			setColor({ rgb, name: '...', day });
 			// Fetching the color name in a non-blocking way.

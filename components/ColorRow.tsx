@@ -30,7 +30,7 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 		}
 		case 'current': {
 			const onSubmit = (): void => {
-				const values: [number, number, number] = [-1, -1, -1];
+				const values = [-1, -1, -1];
 				for (const i in refs) {
 					if (refs[i].current) {
 						const v = parseInt(refs[i].current!.value); // why tf do i get ts 2532 without the !, i specifically do a non-null check. Fucking language.

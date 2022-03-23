@@ -5,11 +5,11 @@ interface HookData {
 	/**
 	 * The correct RGB values of this game.
 	 */
-	correct: [number, number, number];
+	correct: number[];
 	/**
 	 * The guesses made by the user.
 	 */
-	guesses: [number, number, number][];
+	guesses: number[][];
 	/**
 	 * The day of the game.
 	 */

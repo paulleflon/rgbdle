@@ -12,7 +12,7 @@ interface ColorDisplayerProps {
 	/**
 	 * The color to display.
 	 */
-	color: [number, number, number];
+	color: number[];
 	/**
 	 * The size in px of the component. (1:1 aspect ratio)
 	 */

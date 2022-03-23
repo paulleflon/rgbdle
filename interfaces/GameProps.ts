@@ -19,13 +19,13 @@ interface GameProps {
 	/**
 	 * The previous guesses the user has submitted.
 	 */
-	guesses: [number, number, number][];
+	guesses: number[][];
 	/**
 	 * If the user has correctly guessed one of the values, this value is locked for their next guesses. 
 	 * Therefore, we disable the corresponding input. 
 	 * Each boolean tells whether to disable or not this input.
 	 */
-	lock: [boolean, boolean, boolean];
+	lock: boolean[];
 	/**
 	 * Whether the game is in mania mode.
 	 */
@@ -37,6 +37,6 @@ interface GameProps {
 	/**
 	 * The function to call when the user submits a color guess.
 	 */
-	submitGuess: (guess: [number, number, number]) => void;
+	submitGuess: (guess: number[]) => void;
 }
 export default GameProps;

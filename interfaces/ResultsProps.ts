@@ -23,6 +23,6 @@ interface ResultsProps extends PopupProps {
 	/**
 	 * All the guesses of today's game, if played.
 	 */
-	guesses?: [number, number, number][];
+	guesses?: number[][];
 }
 export default ResultsProps;
