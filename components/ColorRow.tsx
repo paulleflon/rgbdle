@@ -2,6 +2,7 @@ import { ReactElement, useRef } from 'react';
 import ColorRowProps from '../interfaces/ColorRowProps';
 import { HiOutlinePlusSm, HiMinusSm } from 'react-icons/hi';
 import { MdDone } from 'react-icons/md';
+import ColorDisplayer from './ColorDisplayer';
 
 /**
  * A row of color values.
@@ -45,11 +46,8 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 							</div>
 						))
 					}
-					<div
-						className='color-row-cell'
-						style={{backgroundColor: `rgb(${guess![0]}, ${guess![1]}, ${guess![2]})`}}
-						title={`This is what rgb(${guess![0]}, ${guess![1]}, ${guess![2]}) looks like!`}
-					>
+					<div className='mx-2'>
+						<ColorDisplayer color={guess!} size={48} />
 					</div>
 				</div>
 			);
