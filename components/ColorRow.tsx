@@ -1,5 +1,4 @@
 import { ReactElement, useRef } from 'react';
-import { MdDone } from 'react-icons/md';
 import ColorRowProps from '../interfaces/ColorRowProps';
 import ColorDisplayer from './ColorDisplayer';
 import GuessCell from './GuessCell';
@@ -17,7 +16,7 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 	switch (status) {
 		case 'past': {
 			return (
-				<div className='color-row'>
+				<div className='flex flex-row items-center justify-center my-3'>
 					{
 						guess!.map((value, i) => (
 							<GuessCell expected={correct[i]} guess={value} />
@@ -33,13 +32,12 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 			const onSubmit = (): void => {
 				const values: [number, number, number] = [-1, -1, -1];
 				for (const i in refs) {
-					console.log(refs[i]);
 					if (refs[i].current) {
 						const v = parseInt(refs[i].current!.value); // why tf do i get ts 2532 without the !, i specifically do a non-null check. Fucking language.
 						if (isNaN(v) || v < 0 || v > 255)
-							refs[i].current!.classList.add('error');
+							refs[i].current!.style.borderColor = '#ff0000';
 						else {
-							refs[i].current!.classList.remove('error');
+							refs[i].current!.style.borderColor = '';
 							values[i] = v;
 						}
 					}
@@ -50,7 +48,7 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 					submitGuess(values);
 			}
 			return (
-				<div className='color-row'>
+				<div className='flex flex-row items-center justify-center my-3'>
 					{
 						refs.map((ref, i) => (
 							lock![i] ?
@@ -60,7 +58,7 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 						))
 					}
 					<button
-						className='color-row-cell text-xs font-title bg-slate-800 dark:bg-gray-50 dark:text-slate-800 
+						className='flex flex-col items-center justify-center mx-2 rounded w-12 h-12 text-white text-xs font-title bg-slate-800 dark:bg-gray-50 dark:text-slate-800 
 							focus-visible:border-[3px] focus-visible:border-orange-500 outline-none active:translate-y-[1px]'
 						onClick={onSubmit}
 					>
@@ -71,7 +69,7 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 		}
 		case 'upcoming': {
 			return (
-				<div className='color-row print:hidden'>
+				<div className='flex flex-row items-center justify-center my-3 print:hidden'>
 					<GuessCell inactive={true} expected={0} />
 					<GuessCell inactive={true} expected={0} />
 					<GuessCell inactive={true} expected={0} />
