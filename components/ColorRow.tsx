@@ -1,8 +1,8 @@
 import { ReactElement, useRef } from 'react';
-import ColorRowProps from '../interfaces/ColorRowProps';
-import { HiOutlinePlusSm, HiMinusSm } from 'react-icons/hi';
 import { MdDone } from 'react-icons/md';
+import ColorRowProps from '../interfaces/ColorRowProps';
 import ColorDisplayer from './ColorDisplayer';
+import GuessCell from './GuessCell';
 
 /**
  * A row of color values.
@@ -15,35 +15,11 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 
 	switch (status) {
 		case 'past': {
-			const displayedColors: string[] = Array(3)
-				.fill('')
-				.map((_, i) => (guess![i] === correct[i]) ? '#49da1e' : (guess![i] < correct[i]) ? '#da1e8d' : '#e9900a');
-			const valueIndicators = Array(3)
-				.fill(null)
-				.map((_, i) => (guess![i] === correct[i]) ?
-					// The icon looks too big in size 24, but we have to give all icons the same size for alignment.
-					// So to balance the size, we affect the scale.
-					<MdDone size={24} className='scale-[0.9]' />
-					:
-					(guess![i] < correct[i]) ?
-						<HiOutlinePlusSm size={24} />
-						: <HiMinusSm size={24} />
-				);
-
 			return (
 				<div className='color-row'>
 					{
 						guess!.map((value, i) => (
-							<div
-								className='color-row-cell'
-								key={i}
-								style={{ backgroundColor: displayedColors[i] }}
-							>
-								{valueIndicators[i]}
-								<div className='font-body'>
-									{value}
-								</div>
-							</div>
+							<GuessCell expected={correct[i]} guess={value} />
 						))
 					}
 					<div className='mx-2'>
@@ -76,12 +52,7 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 					{
 						refs.map((ref, i) => (
 							lock![i] ?
-								<div className='color-row-cell bg-[#49da1e]' key={i}>
-									<MdDone size={24} className='scale-[0.9]' />
-									<div className='font-body'>
-										{correct[i]}
-									</div>
-								</div>
+								<GuessCell expected={correct[i]} guess={correct[i]} />
 								:
 								<input
 									autoComplete='off'
@@ -112,13 +83,13 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 		case 'upcoming': {
 			return (
 				<div className='color-row print:hidden'>
-					{
-						// Array of length 3
-						correct.map((_, i) =>
-							<div className='color-row-cell bg-slate-800 dark:bg-gray-300' key={i}></div>
-						)
-					}
-					<div className='color-row-cell bg-transparent'></div> {/* For alignment. */}
+					<GuessCell inactive={true} expected={correct[0]} />
+					<GuessCell inactive={true} expected={correct[1]} />
+					<GuessCell inactive={true} expected={correct[2]} />
+					{/* For alignment */}
+					<div className='mx-2 opacity-0'>
+						<ColorDisplayer color={[0, 0, 0]} size={48} />
+					</div>
 				</div>
 			);
 		}
