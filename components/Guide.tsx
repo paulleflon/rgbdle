@@ -42,7 +42,8 @@ const Guide = ({ close, displayed }: PopupProps): ReactElement => {
 						</div>
 						<ColorRow
 							correct={[25, 125, 225]}
-							guess={[25, 150, 200]}
+							guesses={[[25, 150, 200]]}
+							index={0}
 							status='past'
 							submitGuess={(): void => {}}
 						/>

@@ -21,12 +21,6 @@ interface GameProps {
 	 */
 	guesses: number[][];
 	/**
-	 * If the user has correctly guessed one of the values, this value is locked for their next guesses. 
-	 * Therefore, we disable the corresponding input. 
-	 * Each boolean tells whether to disable or not this input.
-	 */
-	lock: boolean[];
-	/**
 	 * Whether the game is in mania mode.
 	 */
 	mania: boolean;

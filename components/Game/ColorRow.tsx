@@ -7,14 +7,14 @@ import GuessInput from './GuessInput';
 /**
  * A row of color values.
  */
-const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps): ReactElement => {
+const ColorRow = ({ correct, guesses, index, status, submitGuess }: ColorRowProps): ReactElement => {
 	// Refs to the input elements.
 	// Any of these can be unused if some colors are locked.
 	// Defined here because next refuses conditional refs.
 	const refs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
-
 	switch (status) {
 		case 'past': {
+			const guess = guesses[index];
 			return (
 				<div className='flex flex-row items-center justify-center my-3'>
 					{
@@ -51,7 +51,7 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 				<div className='flex flex-row items-center justify-center my-3'>
 					{
 						refs.map((ref, i) => (
-							lock![i] ?
+							guesses[index - 1] && guesses[index - 1][i] === correct[i] ?
 								<GuessCell expected={correct[i]} guess={correct[i]} />
 								:
 								<GuessInput ref={ref} onSubmit={onSubmit} />

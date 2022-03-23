@@ -7,7 +7,7 @@ import ColorRow from './ColorRow';
 /**
  * Functional component for the RGBdle game.
  */
-const Game = ({ about, color, ended, guesses, lock, mania, refreshColor, submitGuess }: GameProps): ReactElement => {
+const Game = ({ about, color, ended, guesses, mania, refreshColor, submitGuess }: GameProps): ReactElement => {
 	const rows = Array(10).fill('');
 	return (
 		<div className='py-6'>
@@ -51,8 +51,9 @@ const Game = ({ about, color, ended, guesses, lock, mania, refreshColor, submitG
 						?
 						<ColorRow
 							correct={color.rgb}
+							guesses={guesses}
+							index={i}
 							key={i}
-							guess={guesses[i]}
 							status='past'
 							submitGuess={submitGuess}
 						/>
@@ -61,14 +62,17 @@ const Game = ({ about, color, ended, guesses, lock, mania, refreshColor, submitG
 							?
 							<ColorRow
 								correct={color.rgb}
+								guesses={guesses}
+								index={i}
 								key={i}
-								lock={lock}
 								status='current'
 								submitGuess={submitGuess}
 							/>
 							:
 							<ColorRow
 								correct={color.rgb}
+								guesses={guesses}
+								index={i}
 								key={i}
 								status='upcoming'
 								submitGuess={submitGuess}

@@ -32,8 +32,6 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 	const [guesses, setGuesses] = useState<number[][]>([]);
 	// Whether the app is loading. This is because we need to access the localStorage from a useEffect hook.
 	const [isLoading, setIsLoading] = useState(true);
-	// Which inputs are locked.
-	const [lock, setLock] = useState<boolean[]>([false, false, false]);
 	// Whether the `Guide` component is visible.
 	const [showGuide, setShowGuide] = useState(false);
 	// Whether the `Results` component is visible.
@@ -46,13 +44,6 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 	const submitGuess = (guess: number[]): void => {
 		let correct = 0;
 		setGuesses((prev) => [...prev, guess]);
-		for (const [i, v] of guess.entries()) {
-			if (v === color.rgb[i]) {
-				correct++;
-				lock[i] = true;
-				setLock(lock);
-			}
-		}
 		if (!mania) {
 			localStorage.setItem('RGBDLE_SAVE', JSON.stringify({
 				day: color.day,
@@ -122,7 +113,6 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 			// Resetting state to initial values.
 			setIsLoading(false);
 			setEnded(false);
-			setLock([false, false, false]);
 			setGuesses([]);
 			// Setting a new color to guess.
 			const random = () => Math.floor(Math.random() * 255);
@@ -164,8 +154,6 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 			) {
 				setGuesses(save.guesses);
 				setEnded(save.ended);
-				const lastGuess = save.guesses.at(-1);
-				setLock([lastGuess[0] === color.rgb[0], lastGuess[1] === color.rgb[1], lastGuess[2] === color.rgb[2]]);
 			} else {
 				localStorage.setItem('RGBDLE_SAVE', '');
 			}
@@ -271,7 +259,6 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 							color={color}
 							ended={ended}
 							guesses={guesses}
-							lock={lock}
 							mania={mania}
 							refreshColor={refreshColor}
 							submitGuess={submitGuess}
