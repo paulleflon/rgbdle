@@ -3,6 +3,7 @@ import { MdDone } from 'react-icons/md';
 import ColorRowProps from '../interfaces/ColorRowProps';
 import ColorDisplayer from './ColorDisplayer';
 import GuessCell from './GuessCell';
+import GuessInput from './GuessInput';
 
 /**
  * A row of color values.
@@ -32,6 +33,7 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 			const onSubmit = (): void => {
 				const values: [number, number, number] = [-1, -1, -1];
 				for (const i in refs) {
+					console.log(refs[i]);
 					if (refs[i].current) {
 						const v = parseInt(refs[i].current!.value); // why tf do i get ts 2532 without the !, i specifically do a non-null check. Fucking language.
 						if (isNaN(v) || v < 0 || v > 255)
@@ -54,20 +56,7 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 							lock![i] ?
 								<GuessCell expected={correct[i]} guess={correct[i]} />
 								:
-								<input
-									autoComplete='off'
-									className='color-row-cell outline-none border-[3px] border-slate-600 dark:border-gray-500 bg-gray-50 focus:border-orange-500 
-										font-body text-slate-800'
-									data-lpignore={true}
-									data-form-type='other'
-									key={i}
-									min={0}
-									max={255}
-									onKeyDown={e => e.key === 'Enter' && onSubmit()}
-									pattern='\d*'
-									ref={ref}
-									type='number'
-								/>
+								<GuessInput ref={ref} onSubmit={onSubmit} />
 						))
 					}
 					<button
@@ -83,9 +72,9 @@ const ColorRow = ({ correct, guess, lock, status, submitGuess }: ColorRowProps):
 		case 'upcoming': {
 			return (
 				<div className='color-row print:hidden'>
-					<GuessCell inactive={true} expected={correct[0]} />
-					<GuessCell inactive={true} expected={correct[1]} />
-					<GuessCell inactive={true} expected={correct[2]} />
+					<GuessCell inactive={true} expected={0} />
+					<GuessCell inactive={true} expected={0} />
+					<GuessCell inactive={true} expected={0} />
 					{/* For alignment */}
 					<div className='mx-2 opacity-0'>
 						<ColorDisplayer color={[0, 0, 0]} size={48} />
