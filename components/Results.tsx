@@ -132,10 +132,12 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 				ended &&
 				<>
 					<ColorDisplayer
-						color={color}
-						showRgb={true}
-						mania={false}
-					/>
+						color={color.rgb}
+						size={200}
+					>
+						<div className='font-default text-center'>Today's color was</div>
+						<div className='font-title text-center'>rgb({color.rgb.join(', ')})</div>
+					</ColorDisplayer>
 					<div className='text-center'>
 						{attempts.at(-1) === -1
 							?

@@ -12,11 +12,13 @@ const Game = ({ about, color, ended, guesses, lock, mania, refreshColor, submitG
 	return (
 		<div className='py-6'>
 			<ColorDisplayer
-				about={about}
-				color={color}
-				mania={mania}
-				showRgb={false}
-			/>
+				context={about}
+				color={color.rgb}
+				size={200}
+			>
+				<div className='font-default text-center'>Today's color is</div>
+				<div className='font-title text-center'>{color.name}</div>
+			</ColorDisplayer>
 			{
 				mania &&
 				<div className='flex justify-center my-2'>

@@ -2,23 +2,21 @@ import ColorInfo from './ColorInfo';
 
 interface ColorDisplayerProps {
 	/**
+	 * Elements embedded in the component. The context is automatically displayed and doesn't need to be included in this prop.
+	 */
+	children?: JSX.Element | JSX.Element[] | string;
+	/**
 	 * Context about the color if there is any.
 	 */
-	about?: string;
+	context?: string;
 	/**
-	 * The info about the color to display.
+	 * The color to display.
 	 */
-	color: ColorInfo;
+	color: [number, number, number];
 	/**
-	 * Whether the game is in mania mode.
+	 * The size in px of the component. (1:1 aspect ratio)
 	 */
-	mania: boolean;
-	/**
-	 * Whether to show the answer.  
-	 * `false` when this component is used in the `Game` component.  
-	 * `true` when this component is used in the `Results` component.
-	 */
-	showRgb: boolean;
+	size: number;
 }
 
 export default ColorDisplayerProps;
