@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import PopupProps from '../interfaces/PopupProps';
-import ColorRow from './ColorRow';
+import ColorRow from './Game/ColorRow';
 import Popup from './Popup';
 
 const Guide = ({ close, displayed }: PopupProps): ReactElement => {

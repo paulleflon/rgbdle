@@ -1,4 +1,4 @@
-import ColorInfo from './ColorInfo';
+import ColorInfo from '../ColorInfo';
 
 /**
  * Props for `Game` component.

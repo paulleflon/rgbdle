@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { BiRefresh } from 'react-icons/bi';
-import GameProps from '../interfaces/GameProps';
+import GameProps from '../../interfaces/Game/GameProps';
 import ColorDisplayer from './ColorDisplayer';
 import ColorRow from './ColorRow';
 

@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import GuessInputProps from '../interfaces/GuessInputProps';
+import GuessInputProps from '../../interfaces/Game/GuessInputProps';
 
 const GuessInput = forwardRef(({ onSubmit }: GuessInputProps, ref: React.Ref<HTMLInputElement>) => {
 	return (

@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { join } from 'path';
 import { useEffect, useState } from 'react';
 import { IoLogoGithub } from 'react-icons/io';
-import Game from '../components/Game';
+import Game from '../components/Game/Game';
 import Guide from '../components/Guide';
 import Header from '../components/Header';
 import Results from '../components/Results';

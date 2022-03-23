@@ -1,6 +1,6 @@
 import { HiMinusSm, HiOutlinePlusSm } from 'react-icons/hi';
 import { MdDone } from 'react-icons/md';
-import GuessCellProps from '../interfaces/GuessCellProps';
+import GuessCellProps from '../../interfaces/Game/GuessCellProps';
 
 /**
  * Displays one value of a user's previous guess.

@@ -1,6 +1,6 @@
 import { ReactElement, useState } from 'react';
 import { FaQuestionCircle } from 'react-icons/fa';
-import ColorDisplayerProps from '../interfaces/ColorDisplayerProps';
+import ColorDisplayerProps from '../../interfaces/Game/ColorDisplayerProps';
 
 const ColorDisplayer = ({ context, color, children, size }: ColorDisplayerProps): ReactElement => {
 	const [aboutDisplayed, setAboutDisplayed] = useState(false);

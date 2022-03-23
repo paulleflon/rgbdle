@@ -1,5 +1,5 @@
 import { ReactElement, useRef } from 'react';
-import ColorRowProps from '../interfaces/ColorRowProps';
+import ColorRowProps from '../../interfaces/Game/ColorRowProps';
 import ColorDisplayer from './ColorDisplayer';
 import GuessCell from './GuessCell';
 import GuessInput from './GuessInput';

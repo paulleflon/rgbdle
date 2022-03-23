@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { FaRegClipboard } from 'react-icons/fa';
 import { IoMdCheckmark, IoMdShare } from 'react-icons/io';
 import ResultsProps from '../interfaces/ResultsProps';
-import ColorDisplayer from './ColorDisplayer';
+import ColorDisplayer from './Game/ColorDisplayer';
 import Popup from './Popup';
 
 const calculateTimeLeft = () => {
