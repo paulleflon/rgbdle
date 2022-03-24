@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { FaRegClipboard } from 'react-icons/fa';
 import { IoMdCheckmark, IoMdShare } from 'react-icons/io';
 import ResultsProps from '../interfaces/ResultsProps';
 import ColorDisplayer from './Game/ColorDisplayer';
 import Popup from './Popup';
 import Diagram from './Results/Diagram';
 import GuessGradient from './Results/GuessGradient';
+import Statistics from './Results/Statistics';
 
 const calculateTimeLeft = () => {
 	const now = new Date();
@@ -26,7 +26,6 @@ const calculateTimeLeft = () => {
 };
 
 const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsProps) => {
-
 	const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 	const shareIconRef = useRef<HTMLDivElement>(null);
 	const checkIconRef = useRef<HTMLDivElement>(null);
@@ -38,28 +37,6 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 		return () => clearTimeout(timer);
 	});
 
-
-	let currentStreak = 0;
-	attempts.reverse();
-	for (const i of attempts) {
-		if (i === -1)
-			break;
-		currentStreak++;
-	}
-	attempts.reverse();
-	let bestStreak = 0;
-	let currentBest = 0;
-	for (const i of attempts) {
-		if (i === -1) {
-			if (currentBest > bestStreak)
-				bestStreak = currentBest;
-			currentBest = 0;
-		}
-		else
-			currentBest++;
-	}
-	if (currentBest > bestStreak)
-		bestStreak = currentBest;
 
 	const shareString = () => {
 		const lastAttempt = attempts.at(-1);
@@ -108,40 +85,7 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 				</>
 			}
 			<div className='my-4 text-lg md:text-2xl text-center font-title'>Statistics</div>
-			<div className='flex flex-row justify-center text-center'>
-				<div className='mx-1 sm:mx-4'>
-					<div className='text-2xl md:text-5xl font-title'>
-						{attempts.length}
-					</div>
-					<div className='text-xs md:text-sm'>
-						Games played
-					</div>
-				</div>
-				<div className='mx-1 sm:mx-4'>
-					<div className='text-2xl md:text-5xl font-title'>
-						{Math.round(attempts.filter(a => a !== -1).length / attempts.length * 100)}%
-					</div>
-					<div className='text-xs md:text-sm'>
-						Wins
-					</div>
-				</div>
-				<div className='mx-1 sm:mx-4'>
-					<div className='text-2xl md:text-5xl font-title'>
-						{currentStreak}
-					</div>
-					<div className='text-xs md:text-sm'>
-						Current win streak
-					</div>
-				</div>
-				<div className='mx-1 sm:mx-4'>
-					<div className='text-2xl md:text-5xl font-title'>
-						{bestStreak}
-					</div>
-					<div className='text-xs md:text-sm'>
-						Best win streak
-					</div>
-				</div>
-			</div>
+			<Statistics attempts={attempts} />
 			<div className='my-4 text-lg md:text-2xl text-center font-title'>Guess Distribution</div>
 			{
 				attempts.length
