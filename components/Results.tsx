@@ -4,6 +4,7 @@ import { IoMdCheckmark, IoMdShare } from 'react-icons/io';
 import ResultsProps from '../interfaces/ResultsProps';
 import ColorDisplayer from './Game/ColorDisplayer';
 import Popup from './Popup';
+import Diagram from './Results/Diagram';
 
 const calculateTimeLeft = () => {
 	const now = new Date();
@@ -54,16 +55,6 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 			ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 		}
 	}, [guesses]);
-
-	const distribution = Array(10).fill(0);
-	const clearAttempts = attempts.filter(attempt => attempt > 0 && attempt <= 10);
-	for (const v of attempts) {
-		if (v !== -1)
-			distribution[v - 1]++;
-	}
-	// To avoid division by 0.
-	if (clearAttempts.length === 0)
-		clearAttempts.push('Never gonna give you up' as any as number); // I do what I want and I will put string in number array.
 
 	let currentStreak = 0;
 	attempts.reverse();
@@ -190,29 +181,9 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 				attempts.length
 					?
 					<div className='flex justify-center my-2'>
-						<div className='flex flex-row items-bottom justify-baseline border border-slate-500 w-[300px] max-w-[90%] h-[300px] overflow-x-auto'>
-							{
-								Array(10).fill(0).map((_, i) =>
-									<div
-										className='flex shrink-0 flex-col mt-auto justify-center items-center bottom-0 w-[10%] min-w-[29px] bg-cyan-500 overflow-y-hidden'
-										key={i}
-										title={`You won ${distribution[i]} games in ${i + 1} attempts. (${(distribution[i] / clearAttempts.length * 100).toFixed(2)}%)`}
-										style={distribution[i] === 0 ?
-											{
-												height: 50,
-												backgroundColor: 'transparent'
-											} :
-											{
-												height: `${Math.min(distribution[i] / clearAttempts.length * 200, 100)}%`,
-											}}
-									// Tailwind arbitrary values can't be used with such volatile CSS.
-									>
-										<div className='cursor-default font-title text-xs'>{i + 1}</div>
-										<div className='cursortext-2xl md:-default font-body text-sm'>{distribution[i]}</div>
-									</div>
-								)}
-						</div>
-
+						<Diagram
+							attempts={attempts}
+						/>
 					</div>
 					:
 					<div className='text-center'>
