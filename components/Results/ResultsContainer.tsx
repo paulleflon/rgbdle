@@ -64,8 +64,10 @@ const ResultsContainer = ({ close, color, displayed }: ResultsContainerProps) =>
 			const arr = JSON.parse(localStorage.getItem('RGBDLE_ATTEMPTS') || '[]') as number[];
 			setAttempts(arr);
 			const save = JSON.parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
-			setIsEnded(save.ended);
-			setGuesses(save.guesses);
+			if (save.ended != isEnded)
+				setIsEnded(save.ended);
+			if (save.guesses.toString() != guesses.toString())
+				setGuesses(save.guesses);
 		}, 100);
 		return () => clearTimeout(timer);
 	});
