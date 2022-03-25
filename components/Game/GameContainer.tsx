@@ -83,14 +83,16 @@ const GameContainer = ({ color: propColor, context, mode, onEnd }: GameContainer
 
 	return (
 		<div className='py-6'>
-			<ColorDisplayer
-				context={context}
-				color={color.rgb}
-				size={200}
-			>
-				<div className='font-default text-center'>Today&apos;s color is</div>
-				<div className='font-title text-center'>{color.name}</div>
-			</ColorDisplayer>
+			<div className='flex justify-center my-4'>
+				<ColorDisplayer
+					context={context}
+					color={color.rgb}
+					size={200}
+				>
+					<div className='font-default text-center'>Today&apos;s color is</div>
+					<div className='font-title text-center'>{color.name}</div>
+				</ColorDisplayer>
+			</div>
 			{
 				mode === 'mania' &&
 				<div className='flex justify-center my-2'>

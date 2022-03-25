@@ -86,13 +86,16 @@ const ResultsContainer = ({ close, color, displayed }: ResultsContainerProps) =>
 			{
 				isEnded &&
 				<>
-					<ColorDisplayer
-						color={color.rgb}
-						size={200}
-					>
-						<div className='font-default text-center'>Today&apos;s color was</div>
-						<div className='font-title text-center'>rgb({color.rgb.join(', ')})</div>
-					</ColorDisplayer>
+					<div className='flex justify-center my-2'>
+
+						<ColorDisplayer
+							color={color.rgb}
+							size={200}
+						>
+							<div className='font-default text-center'>Today&apos;s color was</div>
+							<div className='font-title text-center'>rgb({color.rgb.join(', ')})</div>
+						</ColorDisplayer>
+					</div>
 					<div className='text-center'>
 						{attempts.at(-1) === -1
 							?
