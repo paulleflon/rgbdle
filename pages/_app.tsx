@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 				displayed={showWarning}
 				message={warningMessage}
 			/>
-			<Component {...pageProps} />;
+			<Component {...pageProps} />
 		</>
 	);
 }
