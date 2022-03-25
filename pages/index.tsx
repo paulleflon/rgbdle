@@ -8,7 +8,7 @@ import { IoLogoGithub } from 'react-icons/io';
 import Game from '../components/Game/Game';
 import Guide from '../components/Guide';
 import Header from '../components/Header';
-import Results from '../components/Results';
+import ResultsContainer from '../components/Results/ResultsContainer';
 import Warning from '../components/Warning';
 import ColorInfo from '../interfaces/ColorInfo';
 import RGBdleProps from '../interfaces/RGBdleProps';
@@ -288,7 +288,7 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 								{build.commit.substring(0, 7)}
 							</a>
 						</div>
-						<Results
+						<ResultsContainer
 							attempts={attempts}
 							close={() => display('none')}
 							color={color}

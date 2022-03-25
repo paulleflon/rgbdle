@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { IoMdCheckmark, IoMdShare } from 'react-icons/io';
-import ResultsProps from '../interfaces/ResultsProps';
-import ColorDisplayer from './Game/ColorDisplayer';
-import Popup from './Popup';
-import Diagram from './Results/Diagram';
-import GuessGradient from './Results/GuessGradient';
-import Statistics from './Results/Statistics';
+import ResultsProps from '../../interfaces/ResultsProps';
+import ColorDisplayer from '../Game/ColorDisplayer';
+import Popup from '../Popup';
+import Diagram from './Diagram';
+import GuessGradient from './GuessGradient';
+import Statistics from './Statistics';
 
+/**
+ * Calculates and formats the time to wait until the next game.
+ */
 const calculateTimeLeft = () => {
 	const now = new Date();
 	const next = new Date();
@@ -25,18 +28,19 @@ const calculateTimeLeft = () => {
 	return `${hours}:${minutes}:${seconds}`;
 };
 
-const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsProps) => {
+/**
+ * Pop-up displaying the results of the last played game, and the player's global stats. 
+ */
+const ResultsContainer = ({ attempts, close, color, displayed, ended, guesses }: ResultsProps) => {
 	const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 	const shareIconRef = useRef<HTMLDivElement>(null);
 	const checkIconRef = useRef<HTMLDivElement>(null);
-
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setTimeLeft(calculateTimeLeft());
 		}, 1000);
 		return () => clearTimeout(timer);
 	});
-
 
 	const shareString = () => {
 		const lastAttempt = attempts.at(-1);
@@ -143,4 +147,4 @@ const Results = ({ attempts, close, color, displayed, ended, guesses }: ResultsP
 		</Popup>
 	);
 }
-export default Results;
+export default ResultsContainer;

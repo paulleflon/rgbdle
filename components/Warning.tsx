@@ -17,7 +17,6 @@ const Warning = ({ close, displayed, message }: WarningProps): ReactElement => {
 				className='relative text-sm md:text-auto'
 				dangerouslySetInnerHTML={{ __html: message }}
 			>
-
 			</div>
 		</div>
 	)
