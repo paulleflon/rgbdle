@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { join } from 'path';
 import { useEffect, useState } from 'react';
 import { IoLogoGithub } from 'react-icons/io';
-import Game from '../components/Game/Game';
+import GameContainer from '../components/Game/GameContainer';
 import Guide from '../components/Guide';
 import Header from '../components/Header';
 import ResultsContainer from '../components/Results/ResultsContainer';
@@ -254,7 +254,7 @@ const Home = ({ about, build, colors, mania }: RGBdleProps) => {
 					:
 					<>
 						<Header display={display} mania={mania} />
-						<Game
+						<GameContainer
 							about={mania ? undefined : about}
 							color={color}
 							ended={ended}

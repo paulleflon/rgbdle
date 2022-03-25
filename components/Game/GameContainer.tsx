@@ -5,9 +5,9 @@ import ColorDisplayer from './ColorDisplayer';
 import ColorRow from './ColorRow';
 
 /**
- * Functional component for the RGBdle game.
+ * Contains all the game logic and interface.
  */
-const Game = ({ about, color, ended, guesses, mania, refreshColor, submitGuess }: GameProps): ReactElement => {
+const GameContainer = ({ about, color, ended, guesses, mania, refreshColor, submitGuess }: GameProps): ReactElement => {
 	const rows = Array(10).fill('');
 	return (
 		<div className='py-6'>
@@ -90,4 +90,4 @@ const Game = ({ about, color, ended, guesses, mania, refreshColor, submitGuess }
 	);
 }
 
-export default Game;
+export default GameContainer;
