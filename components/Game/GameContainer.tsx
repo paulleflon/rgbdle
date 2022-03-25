@@ -11,6 +11,7 @@ const GameContainer = ({ color: propColor, context, mode, onEnd }: GameContainer
 	const refreshColor = () => {
 		// Resetting the state to welcome the new color.
 		setGuesses([]);
+		setIsEnded(false);
 		// Setting a new color to guess.
 		const random = () => Math.floor(Math.random() * 255);
 		const rgb = [random(), random(), random()];
