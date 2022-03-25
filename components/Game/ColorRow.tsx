@@ -19,7 +19,7 @@ const ColorRow = ({ correct, guesses, index, status, submitGuess }: ColorRowProp
 				<div className='flex flex-row items-center justify-center my-3'>
 					{
 						guess!.map((value, i) => (
-							<GuessCell expected={correct[i]} guess={value} />
+							<GuessCell expected={correct[i]} guess={value} key={i} />
 						))
 					}
 					<div className='mx-2'>
@@ -52,9 +52,9 @@ const ColorRow = ({ correct, guesses, index, status, submitGuess }: ColorRowProp
 					{
 						refs.map((ref, i) => (
 							guesses[index - 1] && guesses[index - 1][i] === correct[i] ?
-								<GuessCell expected={correct[i]} guess={correct[i]} />
+								<GuessCell expected={correct[i]} guess={correct[i]} key={i} />
 								:
-								<GuessInput ref={ref} onSubmit={onSubmit} />
+								<GuessInput ref={ref} onSubmit={onSubmit} key={i} />
 						))
 					}
 					<button

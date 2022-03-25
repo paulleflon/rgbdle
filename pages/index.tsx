@@ -117,6 +117,7 @@ const Home = ({ build, colors, context, mode }: RGBdleProps) => {
 			if (e.key === 'Escape')
 				display('none');
 		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const head = (

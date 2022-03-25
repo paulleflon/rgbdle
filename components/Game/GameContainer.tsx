@@ -77,6 +77,7 @@ const GameContainer = ({ color: propColor, context, mode, onEnd }: GameContainer
 				localStorage.setItem('RGBDLE_SAVE', '');
 			}
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
@@ -86,7 +87,7 @@ const GameContainer = ({ color: propColor, context, mode, onEnd }: GameContainer
 				color={color.rgb}
 				size={200}
 			>
-				<div className='font-default text-center'>Today's color is</div>
+				<div className='font-default text-center'>Today&apos;s color is</div>
 				<div className='font-title text-center'>{color.name}</div>
 			</ColorDisplayer>
 			{

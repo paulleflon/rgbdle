@@ -90,7 +90,7 @@ const ResultsContainer = ({ close, color, displayed }: ResultsContainerProps) =>
 						color={color.rgb}
 						size={200}
 					>
-						<div className='font-default text-center'>Today's color was</div>
+						<div className='font-default text-center'>Today&apos;s color was</div>
 						<div className='font-title text-center'>rgb({color.rgb.join(', ')})</div>
 					</ColorDisplayer>
 					<div className='text-center'>

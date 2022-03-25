@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import GuessInputProps from '../../interfaces/Game/GuessInputProps';
 
-const GuessInput = forwardRef(({ onSubmit }: GuessInputProps, ref: React.Ref<HTMLInputElement>) => {
+const GuessInput = forwardRef(function GessInput({ onSubmit }: GuessInputProps, ref: React.Ref<HTMLInputElement>) {
 	return (
 		<input
 			autoComplete='off'
