@@ -3,23 +3,22 @@ import { parse } from 'comment-json';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { useEffect, useState } from 'react';
-import { IoLogoGithub } from 'react-icons/io';
+import Footer from '../components/Common/Footer';
+import Head from '../components/Common/Head';
+import Header from '../components/Common/Header';
 import GameContainer from '../components/Game/GameContainer';
 import Guide from '../components/Guide';
-import Header from '../components/Common/Header';
 import ResultsContainer from '../components/Results/ResultsContainer';
 import Warning from '../components/Warning';
 import ColorInfo from '../interfaces/ColorInfo';
 import RGBdleProps from '../interfaces/RGBdleProps';
-import Footer from '../components/Common/Footer';
-import Head from '../components/Common/Head';
 
 /**
  * The main page of the app.
  * @param props The props of the page.
  * @param props.colors ColorInfo objects for the upcoming games.
  */
-const Home = ({ build, colors, context, mode }: RGBdleProps) => {
+const Home = ({ build, colors, context }: RGBdleProps) => {
 	const d = new Date();
 	const formatted = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 	const [color, _setColor] = useState<ColorInfo>(colors[formatted] || { rgb: [4, 20, 69], name: 'Backup color', day: 69420 }); // In case something fucks up.
@@ -31,19 +30,12 @@ const Home = ({ build, colors, context, mode }: RGBdleProps) => {
 	const [showGuide, setShowGuide] = useState(false);
 	// Whether the `Results` component is visible.
 	const [showResults, setShowResults] = useState(false);
-	// Whether the `Warning` component is visible.
-	const [showWarning, setShowWarning] = useState(false);
-	// The warning message to display.
-	const [warningMessage, setWarningMessage] = useState('');
-
+	
 	const onEnd = async (guesses: number[][], correct: ColorInfo): Promise<void> => {
-		console.log(guesses, correct);
 		attempts.push(guesses.at(-1)!.toString() === correct.rgb.toString() ? guesses.length : -1);
 		setAttempts(attempts);
-		if (mode === 'standard') {
-			localStorage.setItem('RGBDLE_ATTEMPTS', JSON.stringify(attempts));
-			display('results');
-		}
+		localStorage.setItem('RGBDLE_ATTEMPTS', JSON.stringify(attempts));
+		display('results');
 		// Sending game results to webhook.
 		fetch('/api/sendGame', {
 			method: 'POST',
@@ -82,11 +74,6 @@ const Home = ({ build, colors, context, mode }: RGBdleProps) => {
 		}
 	}
 
-	const closeWaring = (): void => {
-		setShowWarning(false);
-		localStorage.setItem('RGBDLE_LAST_IGNORED_WARNING', process.env.NEXT_PUBLIC_WARNING!);
-	};
-
 	/* Disable body scrolling when a popup is opened. */
 	useEffect(() => {
 		document.body.style.overflow = (showGuide || showResults) ? 'hidden' : '';
@@ -94,24 +81,12 @@ const Home = ({ build, colors, context, mode }: RGBdleProps) => {
 
 	useEffect(() => {
 		/* Checking the attempts array. */
-		if (mode === 'standard') {
 			const arr = parse(localStorage.getItem('RGBDLE_ATTEMPTS') || '[]') as number[];
 			setAttempts(arr);
-		}
-
 		/* Opening guide if it's the first time the user is playing. */
 		const alreadyPlayed = localStorage.getItem('RGBDLE_FIRST_TIME') === 'false';
 		setShowGuide(!alreadyPlayed);
 		localStorage.setItem('RGBDLE_FIRST_TIME', 'false');
-
-		/* Opening Warning if needed */
-		if (process.env.NEXT_PUBLIC_WARNING && process.env.NEXT_PUBLIC_WARNING_MESSAGE) {
-			const lastIgnored = localStorage.getItem('RGBDLE_LAST_IGNORED_WARNING') || '';
-			if (lastIgnored !== process.env.NEXT_PUBLIC_WARNING) {
-				setShowWarning(true);
-				setWarningMessage(process.env.NEXT_PUBLIC_WARNING_MESSAGE);
-			}
-		}
 
 		/* Keyboard shortcut to close popup. */
 		window.addEventListener('keydown', (e) => {
@@ -149,11 +124,11 @@ const Home = ({ build, colors, context, mode }: RGBdleProps) => {
 	return (
 		<>
 			<Head />
-			<Header display={display} mode={mode} />
+			<Header display={display} mode='standard' />
 			<GameContainer
-				context={mode === 'standard' ? context : ''}
+				context={context}
 				color={color}
-				mode={mode}
+				mode='standard'
 				onEnd={onEnd}
 			/>
 			<Footer build={build} />
@@ -165,11 +140,6 @@ const Home = ({ build, colors, context, mode }: RGBdleProps) => {
 			<Guide
 				close={() => display('none')}
 				displayed={showGuide}
-			/>
-			<Warning
-				close={closeWaring}
-				displayed={showWarning}
-				message={warningMessage}
 			/>
 		</>
 	);
@@ -200,9 +170,7 @@ export function getStaticProps(): { props: RGBdleProps } {
 		props: {
 			build: { commit, date, version },
 			context: process.env.COLOR_ABOUT || '',
-			colors,
-			// mania is to be set to true manually in mania.tsx
-			mode: 'standard'
+			colors
 		}
 	};
 }
