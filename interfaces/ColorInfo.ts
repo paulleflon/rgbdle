@@ -5,7 +5,7 @@ interface ColorInfo {
 	/**
 	 * The rgb values of the color.
 	 */
-	rgb: [number, number, number];
+	rgb: number[];
 	/**
 	 * The english name of the color.
 	 */

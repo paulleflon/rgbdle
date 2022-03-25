@@ -5,19 +5,15 @@ interface ColorRowProps {
 	/**
 	 * The RGB values of the correct color.
 	 */
-	correct: [number, number, number];
+	correct: number[];
 	/**
-	 * *This prop is specified only when status is `past`.*  
-	 * The guess this row represents.
+	 * The guesses sent by the user.
 	 */
-	guess?: [number, number, number];
+	guesses: number[][];
 	/**
-	 * *This prop is specified only when status is `current`.*  
-	 * If the user has correctly guessed one of the values, this value is locked for their next guesses. 
-	 * Therefore, we disable the corresponding input.
-	 * Each boolean tells whether to disable or not this input.
+	 * The index of the guess this row represents.
 	 */
-	lock?: [boolean, boolean, boolean];
+	index: number;
 	/**
 	 * The status of this row, either:
 	 *  - `current`: This row is the one in which the user is submitting their guess.
@@ -28,6 +24,6 @@ interface ColorRowProps {
 	/**
 	 * The function to call when the user submits a color guess.
 	 */
-	submitGuess: (guess: [number, number, number]) => void;
+	submitGuess: (guess: number[]) => void;
 }
 export default ColorRowProps;

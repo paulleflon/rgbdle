@@ -38,18 +38,6 @@ input::-webkit-inner-spin-button {
 }
 
 @layer components {
-	.color-row {
-		@apply flex flex-row items-center justify-center my-3;
-	}
-
-	.color-row-cell {
-		@apply appearance-none flex flex-col items-center justify-center mx-2 rounded w-12 h-12 font-title text-center text-white;
-	}
-
-	.color-row-cell.error {
-		@apply border-red-600;
-	}
-
 	.pop-up-container {
 		@apply fixed top-0 left-0 flex justify-center items-center opacity-0 motion-reduce:transition-none transition-all duration-300 w-full h-full bg-black/30 backdrop-blur-lg pointer-events-none blur-xl;
 	}

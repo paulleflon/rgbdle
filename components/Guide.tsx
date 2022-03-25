@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import PopupProps from '../interfaces/PopupProps';
-import ColorRow from './ColorRow';
+import ColorRow from './Game/ColorRow';
 import Popup from './Popup';
 
 const Guide = ({ close, displayed }: PopupProps): ReactElement => {
@@ -42,7 +42,8 @@ const Guide = ({ close, displayed }: PopupProps): ReactElement => {
 						</div>
 						<ColorRow
 							correct={[25, 125, 225]}
-							guess={[25, 150, 200]}
+							guesses={[[25, 150, 200]]}
+							index={0}
 							status='past'
 							submitGuess={(): void => {}}
 						/>
