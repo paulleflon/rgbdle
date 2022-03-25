@@ -66,7 +66,7 @@ const ResultsContainer = ({ close, color, displayed }: ResultsContainerProps) =>
 			const save = JSON.parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
 			if (save.ended != isEnded)
 				setIsEnded(save.ended);
-			if (save.guesses.toString() != guesses.toString())
+			if (save.guesses?.toString() != guesses?.toString())
 				setGuesses(save.guesses);
 		}, 100);
 		return () => clearTimeout(timer);
