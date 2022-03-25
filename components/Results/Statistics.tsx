@@ -38,7 +38,12 @@ const Statistics = ({ attempts }: StatisticsProps) => {
 			</div>
 			<div className='mx-1 sm:mx-4'>
 				<div className='text-2xl md:text-5xl font-title'>
-					{Math.round(attempts.filter(a => a !== -1).length / attempts.length * 100)}%
+					{
+						attempts.length ?
+							Math.round(attempts.filter(a => a !== -1).length / attempts.length * 100) + '%'
+							:
+							'0'
+					}
 				</div>
 				<div className='text-xs md:text-sm'>
 					Wins
