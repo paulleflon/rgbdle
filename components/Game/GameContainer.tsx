@@ -1,18 +1,88 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { BiRefresh } from 'react-icons/bi';
-import GameProps from '../../interfaces/Game/GameProps';
+import GameContainerProps from '../../interfaces/Game/GameContainerProps';
 import ColorDisplayer from './ColorDisplayer';
 import ColorRow from './ColorRow';
 
 /**
  * Contains all the game logic and interface.
  */
-const GameContainer = ({ about, color, ended, guesses, mania, refreshColor, submitGuess }: GameProps): ReactElement => {
-	const rows = Array(10).fill('');
+const GameContainer = ({ color: propColor, context, mode, onEnd }: GameContainerProps): ReactElement => {
+	const refreshColor = () => {
+		// Resetting the state to welcome the new color.
+		setGuesses([]);
+		// Setting a new color to guess.
+		const random = () => Math.floor(Math.random() * 255);
+		const rgb = [random(), random(), random()];
+		const day = -25;
+		setColor({ rgb, name: '...', day });
+		// Fetching the color name in a non-blocking way.
+		let name: string;
+		fetch('https://www.thecolorapi.com/id?rgb=' + rgb.join(','))
+			.then(res => res.json())
+			.then(res => name = res.name.value)
+			.catch(_ => name = 'Random color')
+			.finally(() => setColor({ rgb, name, day }));
+	}
+	const submitGuess = (guess: number[]): void => {
+		let correct = 0;
+		setGuesses((prev) => [...prev, guess]);
+		for (const [i, v] of guess.entries()) {
+			if (v === color.rgb[i])
+				correct++;
+		}
+		if (correct === 3)
+			endGame([...guesses, guess]);
+		else if (guesses.length + 1 === 10) // +1 because the length is not yet updated as state is async.
+			endGame([...guesses, guess]);
+
+		if (mode === 'standard') {
+			localStorage.setItem('RGBDLE_SAVE', JSON.stringify({
+				day: color.day,
+				ended: correct === 3 || guesses.length + 1 === 10,
+				guesses: [...guesses, guess]
+			}));
+		}
+	};
+
+	const endGame = async (guesses: number[][]): Promise<void> => {
+		setIsEnded(true);
+		onEnd(guesses, color);
+	}
+
+	const [color, setColor] = useState((mode === 'standard' && propColor) || { rgb: [4, 20, 69], name: 'Loading...', day: 69420 });
+	const [guesses, setGuesses] = useState<number[][]>([]);
+	const [isEnded, setIsEnded] = useState(false);
+
+	useEffect(() => {
+		if (!propColor || mode !== 'standard')
+			refreshColor();
+		if (mode === 'standard') {
+
+			const save = JSON.parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
+			// It can be anything, the user may have messed up with localStorage. And `unknown` is a bullshit type.
+			if (
+				// Type checks
+				typeof save.day === 'number' &&
+				typeof save.ended === 'boolean' &&
+				typeof save.guesses === 'object' &&
+				// If no guess is stored, no need to consider this save. Well there is no reason for a save without guesses to exist but just in case.
+				save.guesses.length > 0 &&
+				// This save is relevant only if it's for the same game day.
+				save.day === color.day
+			) {
+				setGuesses(save.guesses);
+				setIsEnded(save.ended);
+			} else {
+				localStorage.setItem('RGBDLE_SAVE', '');
+			}
+		}
+	}, []);
+
 	return (
 		<div className='py-6'>
 			<ColorDisplayer
-				context={about}
+				context={context}
 				color={color.rgb}
 				size={200}
 			>
@@ -20,7 +90,7 @@ const GameContainer = ({ about, color, ended, guesses, mania, refreshColor, subm
 				<div className='font-title text-center'>{color.name}</div>
 			</ColorDisplayer>
 			{
-				mania &&
+				mode === 'mania' &&
 				<div className='flex justify-center my-2'>
 					<div
 						className='border-2 rounded-full border-white/80 p-1 cursor-pointer transition-colors duration-100 hover:bg-white/40'
@@ -46,7 +116,7 @@ const GameContainer = ({ about, color, ended, guesses, mania, refreshColor, subm
 				</div>
 			</div>
 			{
-				rows.map((_, i) => (
+				Array(10).fill(null).map((_, i) => (
 					guesses.length > i
 						?
 						<ColorRow
@@ -58,7 +128,7 @@ const GameContainer = ({ about, color, ended, guesses, mania, refreshColor, subm
 							submitGuess={submitGuess}
 						/>
 						:
-						guesses.length === i && !ended
+						guesses.length === i && !isEnded
 							?
 							<ColorRow
 								correct={color.rgb}
@@ -80,7 +150,7 @@ const GameContainer = ({ about, color, ended, guesses, mania, refreshColor, subm
 				))
 			}
 			{
-				ended &&
+				isEnded &&
 				/* Who the fuck would print RGBdle results? I'm wondering too. But just in case. */
 				<div className='hidden print:block text-center text-black'>
 					Answer: <span className='font-title'>{color.rgb.join(', ')}</span>

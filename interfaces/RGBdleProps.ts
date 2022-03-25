@@ -18,17 +18,20 @@ interface RGBdleProps {
 		 */
 		version: string;
 	};
-	/**
-	 * Context about the color if there is any.
-	 */
-	about?: string;
 	/*
-	 * All colors to play from this day.
+	* All colors to play from this day.
 	*/
 	colors: Record<string, ColorInfo>;
 	/**
-	 * Whether the game is in mania mode.
+	 * Context about the color if there is any.
 	 */
-	mania: boolean;
+	context?: string;
+	/**
+	 * The gamemode to use:
+	 *  - `mania`: Mode where colors are randomly generated, as much as the user wants.
+	 *  - `standard`: Mode with one color per day.
+	 *  - `versus`: 1v1 mode where the user must guess the maxiumum amount of colors in a limited time. The user who guesses the highest amount of colors wins.
+	 */
+	mode: 'mania' | 'standard' | 'versus';
 }
 export default RGBdleProps;

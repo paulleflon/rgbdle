@@ -2,8 +2,8 @@ import RGBdleProps from '../interfaces/RGBdleProps';
 import Home from './index';
 import { getStaticProps as _getStaticProps } from './index';
 
-const Mania = ({ about, build, colors }: RGBdleProps) => {
-	return <Home about={about} build={build} colors={colors} mania />;
+const Mania = ({ context, build, colors }: RGBdleProps) => {
+	return <Home context={context} build={build} colors={colors} mode={'mania'} />;
 }
 export default Mania;
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { IoMdCheckmark, IoMdShare } from 'react-icons/io';
-import ResultsProps from '../../interfaces/ResultsProps';
+import ResultsContainerProps from '../../interfaces/Results/ResultsContainerProps';
 import ColorDisplayer from '../Game/ColorDisplayer';
 import Popup from '../Popup';
 import Diagram from './Diagram';
@@ -31,17 +31,7 @@ const calculateTimeLeft = () => {
 /**
  * Pop-up displaying the results of the last played game, and the player's global stats. 
  */
-const ResultsContainer = ({ attempts, close, color, displayed, ended, guesses }: ResultsProps) => {
-	const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-	const shareIconRef = useRef<HTMLDivElement>(null);
-	const checkIconRef = useRef<HTMLDivElement>(null);
-	useEffect(() => {
-		const timer = setTimeout(() => {
-			setTimeLeft(calculateTimeLeft());
-		}, 1000);
-		return () => clearTimeout(timer);
-	});
-
+const ResultsContainer = ({ close, color, displayed }: ResultsContainerProps) => {
 	const shareString = () => {
 		const lastAttempt = attempts.at(-1);
 		let str = `RGBdle ${color.day} ${lastAttempt === -1 ? 'X' : lastAttempt}/10`;
@@ -61,13 +51,38 @@ const ResultsContainer = ({ attempts, close, color, displayed, ended, guesses }:
 		}, 2000);
 	}
 
+	const [attempts, setAttempts] = useState<number[]>([]);
+	const [guesses, setGuesses] = useState<number[][]>([]);
+	const [isEnded, setIsEnded] = useState(false);
+	const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+	const shareIconRef = useRef<HTMLDivElement>(null);
+	const checkIconRef = useRef<HTMLDivElement>(null);
+
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			const arr = JSON.parse(localStorage.getItem('RGBDLE_ATTEMPTS') || '[]') as number[];
+			setAttempts(arr);
+			const save = JSON.parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
+			setIsEnded(save.ended);
+			setGuesses(save.guesses);
+		}, 100);
+		return () => clearTimeout(timer);
+	});
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setTimeLeft(calculateTimeLeft());
+		}, 1000);
+		return () => clearTimeout(timer);
+	}, [timeLeft]);
+
 	return (
 		<Popup
 			close={close}
 			displayed={displayed}
 		>
 			{
-				ended &&
+				isEnded &&
 				<>
 					<ColorDisplayer
 						color={color.rgb}
@@ -105,7 +120,7 @@ const ResultsContainer = ({ attempts, close, color, displayed, ended, guesses }:
 					</div>
 			}
 			{
-				ended &&
+				isEnded &&
 				<>
 					<div className='my-4 text-lg md:text-2xl text-center font-title'>Guess Gradient</div>
 					<div className='flex justify-center'>
@@ -123,7 +138,7 @@ const ResultsContainer = ({ attempts, close, color, displayed, ended, guesses }:
 					</div>
 				</div>
 				{
-					ended &&
+					isEnded &&
 					<>
 						<div className='my-4 md:my-0 md:mx-10 w-1/2 h-px md:w-px md:h-24 bg-slate-500 z-50'></div>
 						<button
