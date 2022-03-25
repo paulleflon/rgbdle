@@ -1,6 +1,6 @@
 import { MouseEvent, ReactElement } from 'react';
 import { IoMdClose } from 'react-icons/io';
-import PopupProps from '../interfaces/PopupProps';
+import PopupProps from '../../interfaces/Common/PopupProps';
 
 // wont jsdoc these props they're pretty self explanatory.
 const Popup = ({ children, close, displayed }: PopupProps): ReactElement => {

@@ -1,7 +1,7 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
-import Warning from '../components/Warning';
+import Warning from '../components/Common/Warning';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const closeWaring = (): void => {

@@ -1,5 +1,5 @@
 import ColorInfo from '../ColorInfo';
-import PopupProps from '../PopupProps';
+import PopupProps from '../Common/PopupProps';
 
 /**
  * Props for `Results` component.

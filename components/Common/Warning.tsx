@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { IoMdClose } from 'react-icons/io';
-import WarningProps from '../interfaces/WarningProps';
+import WarningProps from '../../interfaces/Common/WarningProps';
 
 const Warning = ({ close, displayed, message }: WarningProps): ReactElement => {
 	return (

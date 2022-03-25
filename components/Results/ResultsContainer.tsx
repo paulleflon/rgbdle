@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { IoMdCheckmark, IoMdShare } from 'react-icons/io';
 import ResultsContainerProps from '../../interfaces/Results/ResultsContainerProps';
 import ColorDisplayer from '../Game/ColorDisplayer';
-import Popup from '../Popup';
+import Popup from '../Common/Popup';
 import Diagram from './Diagram';
 import GuessGradient from './GuessGradient';
 import Statistics from './Statistics';

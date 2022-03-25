@@ -3,7 +3,7 @@ import Footer from '../components/Common/Footer';
 import Head from '../components/Common/Head';
 import Header from '../components/Common/Header';
 import GameContainer from '../components/Game/GameContainer';
-import Guide from '../components/Guide';
+import Guide from '../components/Common/Guide';
 import ColorInfo from '../interfaces/ColorInfo';
 import RGBdleProps from '../interfaces/RGBdleProps';
 import { getStaticProps as _getStaticProps } from './index';
