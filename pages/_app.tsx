@@ -1,6 +1,6 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Warning from '../components/Warning';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -14,24 +14,28 @@ function MyApp({ Component, pageProps }: AppProps) {
 	// The warning message to display.
 	const [warningMessage, setWarningMessage] = useState('');
 
-	/* Opening Warning if needed */
-	if (process.env.NEXT_PUBLIC_WARNING && process.env.NEXT_PUBLIC_WARNING_MESSAGE) {
-		const lastIgnored = localStorage.getItem('RGBDLE_LAST_IGNORED_WARNING') || '';
-		if (lastIgnored !== process.env.NEXT_PUBLIC_WARNING) {
-			setShowWarning(true);
-			setWarningMessage(process.env.NEXT_PUBLIC_WARNING_MESSAGE);
+	useEffect(() => {
+
+		/* Opening Warning if needed */
+		if (process.env.NEXT_PUBLIC_WARNING && process.env.NEXT_PUBLIC_WARNING_MESSAGE) {
+			const lastIgnored = localStorage.getItem('RGBDLE_LAST_IGNORED_WARNING') || '';
+			if (lastIgnored !== process.env.NEXT_PUBLIC_WARNING) {
+				setShowWarning(true);
+				setWarningMessage(process.env.NEXT_PUBLIC_WARNING_MESSAGE);
+			}
 		}
-	}
+		//eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 
 	return (
 		<>
+			<Component {...pageProps} />
 			<Warning
 				close={closeWaring}
 				displayed={showWarning}
 				message={warningMessage}
 			/>
-			<Component {...pageProps} />
 		</>
 	);
 }
