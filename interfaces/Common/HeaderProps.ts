@@ -1,19 +1,11 @@
-import BuildInfo from './BuildInfo';
-import ColorInfo from './ColorInfo';
-
-interface RGBdleProps {
+/**
+ * Props for `Header` component.
+ */
+interface HeaderProps {
 	/**
-	 * Data about the current build.
+	 * Function to display/close a Pop-up.
 	 */
-	build: BuildInfo;
-	/*
-	* All colors to play from this day.
-	*/
-	colors: Record<string, ColorInfo>;
-	/**
-	 * Context about the color if there is any.
-	 */
-	context?: string;
+	display: (component: 'none' | 'results' | 'guide') => void;
 	/**
 	 * The gamemode to use:
 	 *  - `mania`: Mode where colors are randomly generated, as much as the user wants.
@@ -22,4 +14,4 @@ interface RGBdleProps {
 	 */
 	mode: 'mania' | 'standard' | 'versus';
 }
-export default RGBdleProps;
+export default HeaderProps;

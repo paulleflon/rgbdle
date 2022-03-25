@@ -1,17 +1,18 @@
 import { execSync } from 'child_process';
 import { parse } from 'comment-json';
 import { readFileSync } from 'fs';
-import Head from 'next/head';
 import { join } from 'path';
 import { useEffect, useState } from 'react';
 import { IoLogoGithub } from 'react-icons/io';
 import GameContainer from '../components/Game/GameContainer';
 import Guide from '../components/Guide';
-import Header from '../components/Header';
+import Header from '../components/Common/Header';
 import ResultsContainer from '../components/Results/ResultsContainer';
 import Warning from '../components/Warning';
 import ColorInfo from '../interfaces/ColorInfo';
 import RGBdleProps from '../interfaces/RGBdleProps';
+import Footer from '../components/Common/Footer';
+import Head from '../components/Common/Head';
 
 /**
  * The main page of the app.
@@ -120,40 +121,10 @@ const Home = ({ build, colors, context, mode }: RGBdleProps) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const head = (
-		<Head>
-			{/* Visual assets */}
-			<link rel='apple-touch-icon' sizes='180x180' href='/apple-touch-icon.png' />
-			<link rel='icon' type='image/png' sizes='32x32' href='/favicon-32x32.png' />
-			<link rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png' />
-			<link rel='manifest' href='/site.webmanifest' />
-			<link rel='mask-icon' href='/safari-pinned-tab.svg' color='#1e293b' />
-			<link rel='shortcut icon' href='/favicon.ico' />
-			<meta name='msapplication-TileColor' content='#1e293b' />
-			<meta name='msapplication-config' content='/browserconfig.xml' />
-			<meta name='theme-color' content='#1e293b' />
-			{/* OpenGraph meta */}
-			<meta property='og:title' content='RGBdle' />
-			<meta property='og:site_name' content='RGBdle' />
-			<meta property='og:description' content='Demonstrate your skills in design: Guess a RGB code every day!' />
-			<meta property='og:type' content='website' />
-			<meta property='og:url' content='https://rgbdle.hicka.world' />
-			<meta property='og:image' content='https://rgbdle.hicka.world/card.png' />
-			{/* Twitter meta */}
-			<meta name='twitter:title' content='RGBdle' />
-			<meta name='twitter:description' content='Demonstrate your skills in design: Guess a RGB code every day!' />
-			<meta name='twitter:image' content='https://rgbdle.hicka.world/card.png' />
-			<meta name='twitter:image:alt' content='RGBdle - Demonstrate your skills in design: Guess a RGB code every day!' />
-			<meta name='twitter:card' content='summary_large_image' />
-			<meta name='twitter:site' content='@hickatheworld' />
-			<title>RGBdle</title>
-		</Head>
-	);
-
 	if (process.env.NEXT_PUBLIC_MAINTENANCE === '1') {
 		return (
 			<>
-				{head}
+				<Head />
 				<div className='flex flex-col justify-center items-center h-full'>
 					<div className='font-title text-lg md:text-4xl my-7'>RGBdle is currently under maintenance.</div>
 					<div className='font-body text-lg md:text-3xl'>Please try again later!</div>
@@ -177,39 +148,15 @@ const Home = ({ build, colors, context, mode }: RGBdleProps) => {
 
 	return (
 		<>
-			{head}
-			<Header display={display} mania={mode === 'mania'} />
+			<Head />
+			<Header display={display} mode={mode} />
 			<GameContainer
 				context={mode === 'standard' ? context : ''}
 				color={color}
 				mode={mode}
 				onEnd={onEnd}
 			/>
-			<div className='px-4 text-center text-slate-500/40 dark:text-gray-50/30'>
-				<div className='inline mr-2'>
-					Report bugs, see source code, star or contribute on
-				</div>
-				<a
-					className='inline-flex flex-row items-baseline no-underline transition-colors duration-100 hover:text-gray-50'
-					href='https://github.com/hickatheworld/rgbdle'
-					rel='noopener noreferrer'
-					target='_blank'
-				>
-
-					<IoLogoGithub size={18} className='translate-y-[2px]'></IoLogoGithub>
-					<div className='ml-1'>
-						GitHub
-					</div>
-				</a>
-			</div>
-			<div className='font-mono text-slate-500/40 dark:text-gray-50/20 text-center text-xs py-1'>
-				Built at {build.date}
-				<br />
-				Version {build.version} |
-				Commit : <a href={`https://github.com/hickatheworld/rgbdle/commit/${build.commit}`} target='_blank' rel='noreferrer'>
-					{build.commit.substring(0, 7)}
-				</a>
-			</div>
+			<Footer build={build} />
 			<ResultsContainer
 				close={() => display('none')}
 				color={color}
