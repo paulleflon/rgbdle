@@ -7,6 +7,7 @@ import Guide from '../components/Common/Guide';
 import ColorInfo from '../interfaces/ColorInfo';
 import RGBdleProps from '../interfaces/RGBdleProps';
 import { getStaticProps as _getStaticProps } from './index';
+import Maintenance from '../components/Common/Maintenance';
 
 const Mania = ({ context, build, colors }: RGBdleProps) => {
 	// a bit WET..
@@ -41,7 +42,14 @@ const Mania = ({ context, build, colors }: RGBdleProps) => {
 	}
 
 	const [showGuide, setShowGuide] = useState(false);
-
+	if (process.env.NEXT_PUBLIC_MAINTENANCE && process.env.NEXT_PUBLIC_MAINTENANCE[1] === '1') {
+		return (
+			<>
+				<Head />
+				<Maintenance mode='mania' />
+			</>
+		)
+	}
 	return (
 		<>
 			<Head />
