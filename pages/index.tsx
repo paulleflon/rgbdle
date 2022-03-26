@@ -12,6 +12,7 @@ import ResultsContainer from '../components/Results/ResultsContainer';
 import Warning from '../components/Common/Warning';
 import ColorInfo from '../interfaces/ColorInfo';
 import RGBdleProps from '../interfaces/RGBdleProps';
+import Maintenance from '../components/Common/Maintenance';
 
 /**
  * The main page of the app.
@@ -96,27 +97,11 @@ const Home = ({ build, colors, context }: RGBdleProps) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	if (process.env.NEXT_PUBLIC_MAINTENANCE === '1') {
+	if (process.env.NEXT_PUBLIC_MAINTENANCE && process.env.NEXT_PUBLIC_MAINTENANCE[2] === '1') {
 		return (
 			<>
 				<Head />
-				<div className='flex flex-col justify-center items-center h-full'>
-					<div className='font-title text-lg md:text-4xl my-7'>RGBdle is currently under maintenance.</div>
-					<div className='font-body text-lg md:text-3xl'>Please try again later!</div>
-					{
-						process.env.NEXT_PUBLIC_MAINTENANCE_MESSAGE &&
-						(
-							<>
-								<div className='my-10 w-1/2 min-w-1/3 h-px bg-slate-500'></div>
-								<div
-									className='font-[monospace] text-sm md:text-xl text-center px-20'
-									dangerouslySetInnerHTML={{ __html: process.env.NEXT_PUBLIC_MAINTENANCE_MESSAGE }}
-								>
-								</div>
-							</>
-						)
-					}
-				</div>
+				<Maintenance mode='standard'/>
 			</>
 		)
 	}
