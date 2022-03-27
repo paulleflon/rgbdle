@@ -4,7 +4,7 @@ const nextConfig = {
 	async redirects() {
 		return [
 			{
-				source: '/(.*)',
+				source: '/',
 				destination: '/mania',
 				permanent: true
 			}
