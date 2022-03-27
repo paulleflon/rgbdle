@@ -11,6 +11,7 @@ const nextConfig = {
 			{
 				source: '/_error',
 				destination: '/mania',
+				permanent: true
 			}
 		];
 	}
