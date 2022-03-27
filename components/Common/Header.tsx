@@ -16,24 +16,6 @@ const Header = ({ display, mode }: HeaderProps): ReactElement => {
 				 w-full p-2 md:p-4 dark:border-slate-700 dark:text-gray-50
 				 print:border-0 print:justify-start'
 		>
-			{
-				mode === 'mania' ?
-					<div className='absolute outline-none left-5 cursor-pointer transition-transform duration-75 hover:scale-125'>
-						<Link href='/'>
-							<a>
-								<MdHome size={32} />
-							</a>
-						</Link>
-					</div>
-					:
-					<div className='absolute left-5 cursor-pointer transition-all duration-75 font-title hover:scale-125 hover:text-red-500 hover:tracking-wider hover:animate-pulse'>
-						<Link href='/mania'>
-							<a className='no-underline'>
-								Mania
-							</a>
-						</Link>
-					</div>
-			}
 			<div className='font-title text-2xl md:text-4xl'>
 				<span className='text-[#ff2e2e]'>R</span>
 				<span className='text-[#3bdb40]'>G</span>
@@ -49,12 +31,6 @@ const Header = ({ display, mode }: HeaderProps): ReactElement => {
 				<div className='mx-2 flex items-center'>
 					<IconButton onClick={() => display('guide')} icon={<FaQuestionCircle />} />
 				</div>
-				{mode === 'mania' ||
-					<div className='mx-2 flex items-center'>
-						<IconButton onClick={() => display('results')} icon={<IoMdPodium />} />
-					</div>
-
-				}
 			</div>
 		</div>
 	);
