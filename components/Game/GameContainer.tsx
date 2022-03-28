@@ -1,6 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { BiRefresh } from 'react-icons/bi';
 import GameContainerProps from '../../interfaces/Game/GameContainerProps';
+import GuessGradient from '../Results/GuessGradient';
 import ColorDisplayer from './ColorDisplayer';
 import ColorRow from './ColorRow';
 
@@ -152,6 +153,27 @@ const GameContainer = ({ color: propColor, context, mode, onEnd }: GameContainer
 								submitGuess={submitGuess}
 							/>
 				))
+			}
+			{
+				isEnded && mode === 'mania' && guesses.at(-1) !== color.rgb &&
+				<ColorRow
+					correct={color.rgb}
+					guesses={[color.rgb]}
+					index={0}
+					status='past'
+					submitGuess={submitGuess}
+				/>
+			}
+			{
+				isEnded &&
+				<>
+					<div className='my-4 text-lg md:text-2xl text-center font-title'>Guess Gradient</div>
+					<div className='flex justify-center'>
+						<div className='w-1/2 flex justify-center'>
+							<GuessGradient guesses={guesses!} />
+						</div>
+					</div>
+				</>
 			}
 			{
 				isEnded &&
