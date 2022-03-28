@@ -1,8 +1,6 @@
-import Link from 'next/link';
 import { ReactElement } from 'react';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { IoMdPodium } from 'react-icons/io';
-import { MdHome } from 'react-icons/md';
 import HeaderProps from '../../interfaces/Common/HeaderProps';
 import IconButton from './IconButton';
 
@@ -30,6 +28,9 @@ const Header = ({ display, mode }: HeaderProps): ReactElement => {
 			<div className='absolute right-1 flex flex-row text-xl md:right-2 md:text-3xl print:hidden'>
 				<div className='mx-2 flex items-center'>
 					<IconButton onClick={() => display('guide')} icon={<FaQuestionCircle />} />
+				</div>
+				<div className='mx-2 flex items-center'>
+					<IconButton onClick={() => display('results')} icon={<IoMdPodium />} />
 				</div>
 			</div>
 		</div>
