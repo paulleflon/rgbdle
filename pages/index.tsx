@@ -118,8 +118,8 @@ const Home = ({ build, colors, context }: RGBdleProps) => {
 			/>
 			<Footer build={build} />
 			<ResultsContainer
+				attempts={attempts}
 				close={() => display('none')}
-				color={color}
 				displayed={showResults}
 			/>
 			<Guide
