@@ -9,7 +9,7 @@ const Footer = ({ build }: { build: BuildInfo }): ReactElement => {
 	return (
 		<div className='px-4 text-center text-slate-500/40 dark:text-gray-50/30'>
 			<div className='inline mr-2'>
-				Report bugs, see source code, star or contribute on
+				See source code on
 			</div>
 			<a
 				className='inline-flex flex-row items-baseline no-underline transition-colors duration-100 hover:text-gray-50'
