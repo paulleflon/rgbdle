@@ -24,6 +24,10 @@ input::-webkit-inner-spin-button {
 	margin: 0;
 }
 
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .warning {
 	bottom: 0;
 	transform: translateY(110%);
