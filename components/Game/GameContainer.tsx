@@ -90,7 +90,7 @@ const GameContainer = ({ color: propColor, context, mode, onEnd }: GameContainer
 					color={color.rgb}
 					size={200}
 				>
-					<div className='font-default text-center'>Today&apos;s color is</div>
+					<div className='font-default text-center'>{mania ? 'You have to guess' : 'Today\'s color is'</div>
 					<div className='font-title text-center'>{color.name}</div>
 				</ColorDisplayer>
 			</div>
