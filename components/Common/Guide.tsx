@@ -62,7 +62,7 @@ const Guide = ({ close, displayed }: PopupProps): ReactElement => {
 					</div>
 					<div className='w-[90%] mx-[5%] my-4 h-px bg-slate-500'></div>
 					<div>
-						A new RGBdle will be available each day!
+						<strike>A new RGBdle will be available each day!</strike> Well no there is an infinity all the time now.
 					</div>
 				</div>
 			</div>
