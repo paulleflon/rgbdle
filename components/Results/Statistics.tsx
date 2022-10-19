@@ -5,8 +5,6 @@ import StatisticsProps from '../../interfaces/Results/StatisticsProps';
  */
 const Statistics = ({ attempts }: StatisticsProps) => {
 	let currentStreak = 0;
-	console.log('ici:');
-	console.log({ attempts });
 	attempts.reverse();
 	for (const i of attempts) {
 		if (i === -1)
