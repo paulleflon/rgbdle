@@ -56,6 +56,16 @@ const GameContainer = ({ color: propColor, context, mode, onEnd }: GameContainer
 	const [guesses, setGuesses] = useState<number[][]>([]);
 	const [isEnded, setIsEnded] = useState(false);
 
+	const compareArrays = (arr1: any[], arr2: any[]) => {
+		if (arr1.length !== arr2.length)
+			return false;
+		for (let i = 0; i < arr1.length; i++) {
+			if (arr1[i] !== arr2[i])
+				return false;
+		}
+		return true;
+	}
+
 	useEffect(() => {
 		if (!propColor || mode !== 'standard')
 			refreshColor();
@@ -155,14 +165,18 @@ const GameContainer = ({ color: propColor, context, mode, onEnd }: GameContainer
 				))
 			}
 			{
-				isEnded && mode === 'mania' && guesses.at(-1) !== color.rgb &&
-				<ColorRow
-					correct={color.rgb}
-					guesses={[color.rgb]}
-					index={0}
-					status='past'
-					submitGuess={submitGuess}
-				/>
+				isEnded && mode === 'mania' && !compareArrays(guesses.at(-1)!, color.rgb) &&
+				<>
+					<div className='w-32 mx-auto h-px my-4 bg-gray-50/40'></div>
+					<div className='mb-4 text-xl md:text-2xl text-center font-title'>Answer</div>
+					<ColorRow
+						correct={color.rgb}
+						guesses={[color.rgb]}
+						index={0}
+						status='past'
+						submitGuess={submitGuess}
+					/>
+				</>
 			}
 			{
 				isEnded &&
