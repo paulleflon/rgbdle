@@ -26,7 +26,7 @@ const GuessGradient = ({ guesses }: GuessGradientProps) => {
 
 	const copyGradient = () => {
 		const canvas = canvasRef.current;
-		if (!canvas)
+		if (!canvas || typeof ClipboardItem === 'undefined')
 			return;
 		canvas.toBlob(blob => {
 			if (blob) {
@@ -43,7 +43,7 @@ const GuessGradient = ({ guesses }: GuessGradientProps) => {
 
 	return (
 		<div
-			className='w-11/12 rounded overflow-hidden cursor-pointer'
+			className={'w-11/12 rounded overflow-hidden' + (typeof ClipboardItem !== 'undefined' ? ' cursor-pointer' : '')}
 			onClick={copyGradient}
 		>
 			<canvas
@@ -52,14 +52,23 @@ const GuessGradient = ({ guesses }: GuessGradientProps) => {
 				width={1920}
 				height={1080}
 			/>
-			<div
-				className='absolute top-0 left-0 w-full h-full flex justify-center items-center
-								bg-black/40 font-title text-xl md:text-4xl
-								opacity-0 hover:opacity-100 transition-opacity duration-100'
-			>
-				<FaRegClipboard className='mr-2' />
-				<span ref={gradientCopyRef}>Click to copy</span>
-			</div>
+			{
+				typeof ClipboardItem !== 'undefined' ?
+					<div
+						className='absolute top-0 left-0 w-full h-full flex justify-center items-center
+					bg-black/40 font-title text-xl md:text-4xl
+					opacity-0 hover:opacity-100 transition-opacity duration-100'
+					>
+						<FaRegClipboard className='mr-2' />
+						<span ref={gradientCopyRef}>Click to copy</span>
+					</div>
+					:
+					<div
+						className='font-title text-xs text-center my-2'
+					>
+						Right click to copy
+					</div>
+			}
 		</div>
 	);
 }
