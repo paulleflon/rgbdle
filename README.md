@@ -22,7 +22,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Contributing
 If you have any bug to report, feature request, or just want to say hi, feel free to [open an issue](https://github.com/hickatheworld/rgbdle/issues/new). 
 
-You can also [fork](https://github.com/hickatheworld/rgbdle-old/fork) the project and make a pull request to implement your changes yourself, it is very much appreciated!
+You can also [fork](https://github.com/hickatheworld/rgbdle/fork) the project and make a pull request to implement your changes, it is very much appreciated!
 
 ## Learn More
 
@@ -36,4 +36,4 @@ To learn more about technologies used in this project, take a look at the follow
 - [Tailwind CSS Documentation](https://tailwindcss.com/)
 
 ## Author
-Project created by [@hickatheworld](https://twitter.com/hickatheworld), inspired by [Josh Wardle](https://twitter.com/powerlanguish)'s [Wordle](https://www.nytimes.com/games/wordle/index.html).
+Project created by Paul Leflon, inspired by [Josh Wardle](https://twitter.com/powerlanguish)'s [Wordle](https://www.nytimes.com/games/wordle/index.html).
