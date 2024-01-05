@@ -31,7 +31,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				url: day === -25 ? `https://singlecolorimage.com/get/${hex}/512x512` : 'https://rgbdle.hicka.world/android-chrome-512x512.png'
 			},
 			footer: {
-				text: `RGBdle ${day === -25 ? 'Mania' : day} ${didGuess ? guesses.length : 'X'}/10`
+				text: `RGBdle ${didGuess ? guesses.length : 'X'}/10`
 			},
 			timestamp: new Date().toISOString()
 		}

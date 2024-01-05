@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 const Page404 = () => {
 	const router = useRouter();
 	useEffect(() => {
-		router.replace('/mania');
+		router.replace('/');
 	});
 	return (<></>);
 }

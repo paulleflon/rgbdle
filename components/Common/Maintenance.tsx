@@ -3,11 +3,10 @@ import Link from 'next/link';
 /**
  * Whole content of the app if it is under maintenance.
  */
-const Maintenance = ({ mode }: { mode: 'mania' | 'standard' | 'versus' }) => {
+const Maintenance = ({ mode }: { mode: 'standard' | 'versus' }) => {
 	const modes = {
 		// [Path, Page title]
 		'standard': ['/', 'RGBdle'],
-		'mania': ['/mania', 'RGBdle Mania']
 		// Versus will be added when it's actually implemented.
 	}
 	return (

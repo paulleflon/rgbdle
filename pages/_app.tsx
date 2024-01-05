@@ -15,7 +15,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 	const [warningMessage, setWarningMessage] = useState('');
 
 	useEffect(() => {
-
 		/* Opening Warning if needed */
 		if (process.env.NEXT_PUBLIC_WARNING && process.env.NEXT_PUBLIC_WARNING_MESSAGE) {
 			const lastIgnored = localStorage.getItem('RGBDLE_LAST_IGNORED_WARNING') || '';
@@ -26,7 +25,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 		}
 		//eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
 
 	return (
 		<>

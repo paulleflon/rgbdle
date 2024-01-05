@@ -24,7 +24,7 @@ const Footer = ({ build }: { build: BuildInfo }): ReactElement => {
 				</div>
 			</a>
 			<div className='font-mono text-slate-500/40 dark:text-gray-50/20 text-center text-xs py-1'>
-				Built at {build.date}
+				Built on {build.date}
 				<br />
 				Version {build.version} |
 				Commit : <a href={`https://github.com/hickatheworld/rgbdle/commit/${build.commit}`} target='_blank' rel='noreferrer'>

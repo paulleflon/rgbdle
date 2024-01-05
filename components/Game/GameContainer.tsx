@@ -100,12 +100,10 @@ const GameContainer = ({ color: propColor, context, mode, onEnd }: GameContainer
 					color={color.rgb}
 					size={200}
 				>
-					<div className='font-default text-center'>{mode === 'mania' ? 'You have to guess' : 'Today\'s color is'}</div>
+					<div className='font-default text-center'>You have to guess</div>
 					<div className='font-title text-center'>{color.name}</div>
 				</ColorDisplayer>
 			</div>
-			{
-				mode === 'mania' &&
 				<div className='flex justify-center my-2'>
 					<div
 						className='border-2 rounded-full border-white/80 p-1 cursor-pointer transition-colors duration-100 hover:bg-white/40'
@@ -115,7 +113,6 @@ const GameContainer = ({ color: propColor, context, mode, onEnd }: GameContainer
 						<BiRefresh size={32} />
 					</div>
 				</div>
-			}
 			<div
 				className='mt-2 flex flex-row justify-center items-center h-6'
 			>
@@ -165,7 +162,7 @@ const GameContainer = ({ color: propColor, context, mode, onEnd }: GameContainer
 				))
 			}
 			{
-				isEnded && mode === 'mania' && !compareArrays(guesses.at(-1)!, color.rgb) &&
+				isEnded && !compareArrays(guesses.at(-1)!, color.rgb) &&
 				<>
 					<div className='w-32 mx-auto h-px my-4 bg-gray-50/40'></div>
 					<div className='mb-4 text-xl md:text-2xl text-center font-title'>Answer</div>
