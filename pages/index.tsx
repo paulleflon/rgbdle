@@ -12,7 +12,7 @@ import ResultsContainer from '../components/Results/ResultsContainer';
 import ColorInfo from '../interfaces/ColorInfo';
 import RGBdleProps from '../interfaces/RGBdleProps';
 
-const Home = ({ context, build }: RGBdleProps) => {
+const Home = ({ build }: RGBdleProps) => {
 	// If the user somehow triggers the display of one popup while another is already open, we make sure to avoid overlapping.
 	const display = (component: 'none' | 'results' | 'guide'): void => {
 		switch (component) {
@@ -85,7 +85,6 @@ const Home = ({ context, build }: RGBdleProps) => {
 			<Head />
 			<Header display={display} mode='standard' />
 			<GameContainer
-				context={context}
 				mode='standard'
 				onEnd={onEnd}
 			/>

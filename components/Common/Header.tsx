@@ -19,7 +19,6 @@ const Header = ({ display, mode }: HeaderProps): ReactElement => {
 				<span className='text-[#3bdb40]'>G</span>
 				<span className='text-[#3770db]'>B</span>
 				<span className='print:text-black'>dle</span>
-
 			</div>
 			<div className='absolute right-1 flex flex-row text-xl md:right-2 md:text-3xl print:hidden'>
 				<div className='mx-2 flex items-center'>

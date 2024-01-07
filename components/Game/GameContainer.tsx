@@ -8,7 +8,7 @@ import ColorRow from './ColorRow';
 /**
  * Contains all the game logic and interface.
  */
-const GameContainer = ({ color: propColor, context, mode, onEnd }: GameContainerProps): ReactElement => {
+const GameContainer = ({ color: propColor, mode, onEnd }: GameContainerProps): ReactElement => {
 	const refreshColor = () => {
 		// Resetting the state to welcome the new color.
 		setGuesses([]);
@@ -96,7 +96,6 @@ const GameContainer = ({ color: propColor, context, mode, onEnd }: GameContainer
 		<div className='py-6'>
 			<div className='flex justify-center my-4'>
 				<ColorDisplayer
-					context={context}
 					color={color.rgb}
 					size={200}
 				>
