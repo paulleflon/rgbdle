@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Poppins&family=Poppins:wght@600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -25,14 +25,14 @@ input::-webkit-inner-spin-button {
 }
 
 input[type=number] {
-  -moz-appearance: textfield;
+	-moz-appearance: textfield;
 }
 
 .warning {
 	bottom: 0;
 	transform: translateY(110%);
 	opacity: 0;
-	transition: 1s cubic-bezier(.07,.35,.07,.98);
+	transition: 1s cubic-bezier(.07, .35, .07, .98);
 }
 
 .warning.open {
@@ -51,8 +51,7 @@ input[type=number] {
 	}
 
 	.pop-up-close {
-		@apply absolute z-50 top-1 right-1 sm:top-3 sm:right-3 p-1 motion-reduce:transition-none transition-colors duration-100 hover:bg-white/40 rounded-full
-			cursor-pointer text-white text-2xl md:text-3xl focus-visible:text-orange-500 outline-none;
+		@apply absolute z-50 top-1 right-1 sm:top-3 sm:right-3 p-1 motion-reduce:transition-none transition-colors duration-100 hover:bg-white/40 rounded-full cursor-pointer text-white text-2xl md:text-3xl focus-visible:text-orange-500 outline-none;
 	}
 
 	.pop-up-wrapper {
