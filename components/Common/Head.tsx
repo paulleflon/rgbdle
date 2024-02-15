@@ -19,15 +19,15 @@ const Head = () => {
 			{/* OpenGraph meta */}
 			<meta property='og:title' content='RGBdle' />
 			<meta property='og:site_name' content='RGBdle' />
-			<meta property='og:description' content='Demonstrate your skills in design: Guess a RGB code every day!' />
+			<meta property='og:description' content='Guess the RGB code!' />
 			<meta property='og:type' content='website' />
-			<meta property='og:url' content='https://rgbdle.hicka.world' />
-			<meta property='og:image' content='https://rgbdle.hicka.world/card.png' />
+			<meta property='og:url' content='https://rgbdle.cinqfoiscinq.fr' />
+			<meta property='og:image' content='https://rgbdle.cinqfoiscinq.fr/card.png' />
 			{/* Twitter meta */}
 			<meta name='twitter:title' content='RGBdle' />
-			<meta name='twitter:description' content='Demonstrate your skills in design: Guess a RGB code every day!' />
-			<meta name='twitter:image' content='https://rgbdle.hicka.world/card.png' />
-			<meta name='twitter:image:alt' content='RGBdle - Demonstrate your skills in design: Guess a RGB code every day!' />
+			<meta name='twitter:description' content='Guess the RGB code!' />
+			<meta name='twitter:image' content='https://rgbdle.cinqfoiscinq.fr/card.png' />
+			<meta name='twitter:image:alt' content='Guess the RGB code!' />
 			<meta name='twitter:card' content='summary_large_image' />
 			<meta name='twitter:site' content='@hickatheworld' />
 			<title>RGBdle</title>
