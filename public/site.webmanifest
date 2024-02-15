@@ -1,6 +1,8 @@
 {
     "name": "RGBdle",
     "short_name": "RGBdle",
+    "start_url": "/",
+    "scope": "/",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -15,5 +17,6 @@
     ],
     "theme_color": "#1e293b",
     "background_color": "#1e293b",
-    "display": "standalone"
+    "display": "standalone",
+    "orientation": "portrait"
 }
