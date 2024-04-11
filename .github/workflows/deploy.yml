@@ -15,4 +15,4 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          script: cd ${{ secrets.PROJECT_PATH }} && npm prod:restart
+          script: cd ${{ secrets.PROJECT_PATH }} && npm run prod:restart
