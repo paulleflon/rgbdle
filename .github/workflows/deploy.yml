@@ -8,6 +8,10 @@ jobs:
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20
       - name: Run server update script
         uses: appleboy/ssh-action@master
         with:
