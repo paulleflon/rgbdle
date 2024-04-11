@@ -1,6 +1,6 @@
 {
 	"name": "rgbdle",
-	"version": "3.8.1",
+	"version": "3.8.2",
 	"author": "hickatheworld",
 	"scripts": {
 		"dev": "next dev",
