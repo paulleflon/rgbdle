@@ -8,10 +8,6 @@ jobs:
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 20
       - name: Run server update script
         uses: appleboy/ssh-action@master
         with:
@@ -19,4 +15,4 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          script: cd ${{ secrets.PROJECT_PATH }} && git pull && npm run prod:restart
+          script: cd ${{ secrets.PROJECT_PATH }} && git pull && npm run restart
