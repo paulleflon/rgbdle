@@ -6,7 +6,9 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"prod:start": "next build && pm2 start npm --name RGBdle -- start",
+		"prod:restart": "pm2 restart RGBdle",
+		"prod:stop": "pm2 stop RGBdle"
 	},
 	"dependencies": {
 		"autoprefixer": "^10.4.2",
