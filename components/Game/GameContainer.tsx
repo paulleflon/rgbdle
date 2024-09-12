@@ -70,8 +70,12 @@ const GameContainer = ({ color: propColor, mode, onEnd }: GameContainerProps): R
 		if (!propColor || mode !== 'standard')
 			refreshColor();
 		if (mode === 'standard') {
-
-			const save = JSON.parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
+			let save;
+			try {
+				save = JSON.parse(localStorage.getItem('RGBDLE_SAVE') || '{}') as any;
+			} catch {
+				save = {};
+			}
 			// It can be anything, the user may have messed up with localStorage. And `unknown` is a bullshit type.
 			if (
 				// Type checks
